@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Get a Quote - Amerex | Instant Shipping Quotes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Get instant shipping quotes from Amerex. Compare prices for express, standard, freight, and international shipping services."
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+      type="image/png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <style>
+      /* Additional styles specific to quote page */
+
+      /* Hero CTA Button Styles */
+      .hero-cta-wrapper {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .hero-cta-wrapper .btn {
+        padding: 14px 32px;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .hero-cta-wrapper {
+          margin-top: 24px;
+          flex-direction: column;
+        }
+
+        .hero-cta-wrapper .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .quote-form-section,
+        .quote-sidebar {
+          width: 100%;
+        }
+
+        .quick-calculator-mobile {
+          display: block;
+          margin-bottom: 30px;
+        }
+
+        .tips-mobile {
+          display: block;
+          margin-top: 30px;
+          padding-top: 30px;
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      @media (min-width: 769px) {
+        .quick-calculator-mobile,
+        .tips-mobile {
+          display: none;
+        }
+      }
+
+      .live-quote {
+        background-color: #f8fafc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e5e7eb;
+        display: none; /* Initially hidden */
+      }
+
+      .live-quote.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .live-quote h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #00a6a6;
+      }
+
+      .price-breakdown {
+        border-top: 1px dashed #e5e7eb;
+        margin-top: 15px;
+        padding-top: 15px;
+      }
+
+      .price-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .total-price {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        color: #012c3a;
+      }
+
+      .quote-result {
+        background: linear-gradient(135deg, #f7fafb, #ffffff);
+        border-radius: 12px;
+        padding: 30px;
+        margin-top: 30px;
+        border: 1px solid #00a6a6;
+        box-shadow: 0 10px 25px rgba(0, 166, 166, 0.1);
+        display: none;
+      }
+
+      .quote-result.active {
+        display: block;
+        animation: slideUp 0.5s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .quote-summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .quote-price {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #00a6a6;
+      }
+
+      .quote-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+      }
+
+      .detail-group h5 {
+        color: #6b7280;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+      }
+
+      .detail-value {
+        font-weight: 600;
+        color: #012c3a;
+      }
+
+      .quote-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 640px) {
+        .quote-actions {
+          flex-direction: column;
+        }
+
+        .quote-actions button {
+          width: 100%;
+        }
+      }
+
+      .form-group.error input,
+      .form-group.error select,
+      .form-group.error textarea {
+        border-color: #f43f5e;
+      }
+
+      .error-message {
+        color: #f43f5e;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .form-group.error .error-message {
+        display: block;
+      }
+
+      .currency-input {
+        position: relative;
+      }
+
+      .currency-input input {
+        padding-left: 25px;
+      }
+
+      .currency-input::before {
+        content: "$";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      .weight-input {
+        position: relative;
+      }
+
+      .weight-input input {
+        padding-right: 35px;
+      }
+
+      .weight-input::after {
+        content: "lbs";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a class="nav-brand" href="index.html">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link active">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <!-- ❌ REMOVED: Create Shipment button from navbar -->
+          <!-- Button is now in hero section for both desktop and mobile -->
+          <button class="hamburger" id="hamburger" aria-label="menu">
+            <span class="bar"></span><span class="bar"></span
+            ><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero page-header-quote" role="banner">
+      <div class="hero-overlay"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Get an instant estimate</p>
+          <h1>Get a Shipping Quote</h1>
+          <p class="lead">
+            Fast, transparent pricing for express, freight, and international
+            shipments—tailored to your needs.
+          </p>
+
+          <!-- ✅ CTA BUTTON - Now visible on BOTH desktop and mobile -->
+          <div class="hero-cta-wrapper">
+            <button
+              class="btn btn-primary"
+              onclick="location.href = 'create-shipment.html'"
+            >
+              <i class="fa-solid fa-box"></i> Create Shipment
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="
+                document
+                  .getElementById('quoteForm')
+                  .scrollIntoView({ behavior: 'smooth' })
+              "
+            >
+              <i class="fa-solid fa-calculator"></i> Get Quote Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content" style="padding: 60px 0">
+      <div class="container">
+        <!-- Mobile Quick Calculator (only visible on mobile) -->
+        <div class="card quick-calculator-mobile">
+          <h3>Quick Calculator</h3>
+          <p class="muted">Get an instant estimate based on weight & service</p>
+
+          <div class="calculator-form">
+            <div class="form-group weight-input">
+              <label for="mobileCalcWeight">Weight</label>
+              <input id="mobileCalcWeight" type="number" min="0.1" step="0.1" />
+            </div>
+
+            <div class="form-group">
+              <label for="mobileCalcService">Service</label>
+              <select id="mobileCalcService">
+                <option value="">Select</option>
+                <option value="express">Express</option>
+                <option value="standard">Standard</option>
+                <option value="freight">Freight</option>
+                <option value="international">International</option>
+              </select>
+            </div>
+
+            <div id="mobileQuickQuoteResult" class="calc-result">
+              Enter details above
+            </div>
+
+            <button
+              type="button"
+              id="mobileCalculateBtn"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 15px"
+            >
+              Calculate
+            </button>
+          </div>
+        </div>
+
+        <div class="layout-grid">
+          <!-- Quote form -->
+          <section class="quote-form-section">
+            <div class="card quote-card">
+              <header class="card-header">
+                <h2>Shipping Information</h2>
+                <p class="muted">
+                  Fill out the form below to receive an instant estimate. Fields
+                  marked <span class="required">*</span> are required.
+                </p>
+              </header>
+
+              <form id="quoteForm" class="quote-form">
+                <!-- Contact -->
+                <fieldset class="form-section">
+                  <legend style="font-weight: 700; margin-bottom: 16px">
+                    Contact Information
+                  </legend>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="q_name"
+                        >Full name <span class="required">*</span></label
+                      >
+                      <input
+                        id="q_name"
+                        name="name"
+                        type="text"
+                        required
+                        autocomplete="name"
+                      />
+                      <div class="error-message" id="nameError">
+                        Please enter your full name
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="q_email"
+                        >Email address <span class="required">*</span></label
+                      >
+                      <input
+                        id="q_email"
+                        name="email"
+                        type="email"
+                        required
+                        autocomplete="email"
+                      />
+                      <div class="error-message" id="emailError">
+                        Please enter a valid email address
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="q_phone">Phone number</label>
+                      <input
+                        id="q_phone"
+                        name="phone"
+                        type="tel"
+                        inputmode="tel"
+                        autocomplete="tel"
+                      />
+                      <div class="error-message" id="phoneError">
+                        Please enter a valid phone number
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="q_company">Company (optional)</label>
+                      <input
+                        id="q_company"
+                        name="company"
+                        type="text"
+                        autocomplete="organization"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Shipping details -->
+                <fieldset class="form-section">
+                  <legend style="font-weight: 700; margin-bottom: 16px">
+                    Shipping Details
+                  </legend>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="q_origin"
+                        >Ship from <span class="required">*</span></label
+                      >
+                      <input
+                        id="q_origin"
+                        name="origin"
+                        type="text"
+                        placeholder="City, State or ZIP"
+                        required
+                      />
+                      <div class="error-message" id="originError">
+                        Please enter origin location
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="q_destination"
+                        >Ship to <span class="required">*</span></label
+                      >
+                      <input
+                        id="q_destination"
+                        name="destination"
+                        type="text"
+                        placeholder="City, State or ZIP"
+                        required
+                      />
+                      <div class="error-message" id="destinationError">
+                        Please enter destination location
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group weight-input">
+                      <label for="q_weight"
+                        >Package weight <span class="required">*</span></label
+                      >
+                      <input
+                        id="q_weight"
+                        name="weight"
+                        type="number"
+                        min="0.1"
+                        step="0.1"
+                        required
+                      />
+                      <div class="error-message" id="weightError">
+                        Please enter package weight
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="q_service"
+                        >Service type <span class="required">*</span></label
+                      >
+                      <select id="q_service" name="service" required>
+                        <option value="">Select service</option>
+                        <option value="express">Express (1-2 days)</option>
+                        <option value="standard">Standard (3-5 days)</option>
+                        <option value="freight">Freight (5-7 days)</option>
+                        <option value="international">
+                          International (7-14 days)
+                        </option>
+                      </select>
+                      <div class="error-message" id="serviceError">
+                        Please select a service type
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="q_dimensions"
+                        >Dimensions (L × W × H inches)</label
+                      >
+                      <input
+                        id="q_dimensions"
+                        name="dimensions"
+                        type="text"
+                        placeholder="e.g. 12 x 8 x 6"
+                      />
+                      <div class="error-message" id="dimensionsError">
+                        Please use format: L x W x H
+                      </div>
+                    </div>
+
+                    <div class="form-group currency-input">
+                      <label for="q_value">Package value (for insurance)</label>
+                      <input
+                        id="q_value"
+                        name="value"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="Package value"
+                      />
+                      <div class="error-message" id="valueError">
+                        Please enter a valid value
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Options -->
+                <fieldset class="form-section">
+                  <legend style="font-weight: 700; margin-bottom: 16px">
+                    Additional Options
+                  </legend>
+
+                  <div class="checkbox-grid">
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="signature"
+                        value="1"
+                        id="opt_signature"
+                      />
+                      <span class="checkmark"></span>
+                      Signature required (+$3.00)
+                    </label>
+
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="insurance"
+                        value="1"
+                        id="opt_insurance"
+                      />
+                      <span class="checkmark"></span>
+                      Additional insurance (2% of value)
+                    </label>
+
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="saturday"
+                        value="1"
+                        id="opt_saturday"
+                      />
+                      <span class="checkmark"></span>
+                      Saturday delivery (+$15.00)
+                    </label>
+
+                    <label class="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="packaging"
+                        value="1"
+                        id="opt_packaging"
+                      />
+                      <span class="checkmark"></span>
+                      Professional packaging (+$8.00)
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- Special instructions -->
+                <div class="form-section">
+                  <label for="q_instructions">Special instructions</label>
+                  <textarea
+                    id="q_instructions"
+                    name="instructions"
+                    rows="3"
+                    placeholder="Any handling or delivery notes..."
+                  ></textarea>
+                </div>
+
+                <!-- Live quote display -->
+                <div id="liveQuoteDisplay" class="live-quote">
+                  <h4>Estimated Cost</h4>
+                  <div class="price-breakdown">
+                    <div class="price-item">
+                      <span>Base shipping cost:</span>
+                      <span id="baseShippingCost">$0.00</span>
+                    </div>
+                    <div
+                      class="price-item"
+                      id="signatureCostRow"
+                      style="display: none"
+                    >
+                      <span>Signature required:</span>
+                      <span id="signatureCost">$0.00</span>
+                    </div>
+                    <div
+                      class="price-item"
+                      id="insuranceCostRow"
+                      style="display: none"
+                    >
+                      <span>Insurance:</span>
+                      <span id="insuranceCost">$0.00</span>
+                    </div>
+                    <div
+                      class="price-item"
+                      id="saturdayCostRow"
+                      style="display: none"
+                    >
+                      <span>Saturday delivery:</span>
+                      <span id="saturdayCost">$0.00</span>
+                    </div>
+                    <div
+                      class="price-item"
+                      id="packagingCostRow"
+                      style="display: none"
+                    >
+                      <span>Professional packaging:</span>
+                      <span id="packagingCost">$0.00</span>
+                    </div>
+                    <div class="total-price">
+                      <span>Total estimate:</span>
+                      <span id="totalCost">$0.00</span>
+                    </div>
+                  </div>
+                  <p
+                    style="margin-top: 15px; font-size: 0.85rem; color: #6b7280"
+                  >
+                    This is an estimate based on the information provided. Final
+                    pricing may vary.
+                  </p>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-calculator"></i> Get Quote
+                  </button>
+                  <button type="button" id="resetQuote" class="btn btn-outline">
+                    Reset
+                  </button>
+                </div>
+              </form>
+
+              <div id="quoteResult" class="quote-result">
+                <div class="quote-summary-header">
+                  <div>
+                    <h3>Your Shipping Quote</h3>
+                    <p style="color: #6b7280">
+                      Quote ID: <span id="quoteId">Q-20260112-001</span>
+                    </p>
+                  </div>
+                  <div class="quote-price" id="quotePrice">$0.00</div>
+                </div>
+
+                <div class="quote-details">
+                  <div class="detail-group">
+                    <h5>From</h5>
+                    <div class="detail-value" id="quoteOrigin">-</div>
+                  </div>
+
+                  <div class="detail-group">
+                    <h5>To</h5>
+                    <div class="detail-value" id="quoteDestination">-</div>
+                  </div>
+
+                  <div class="detail-group">
+                    <h5>Service</h5>
+                    <div class="detail-value" id="quoteService">-</div>
+                  </div>
+
+                  <div class="detail-group">
+                    <h5>Weight</h5>
+                    <div class="detail-value" id="quoteWeight">-</div>
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    padding: 15px;
+                    background: #f8fafc;
+                    border-radius: 8px;
+                    margin-bottom: 20px;
+                  "
+                >
+                  <h5 style="margin-bottom: 10px; color: #012c3a">
+                    Additional Services
+                  </h5>
+                  <div
+                    id="quoteAddons"
+                    style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(150px, 1fr)
+                      );
+                      gap: 10px;
+                    "
+                  >
+                    <div id="signatureAddon" style="display: none">
+                      <i
+                        class="fa-solid fa-signature"
+                        style="color: #00a6a6; margin-right: 5px"
+                      ></i>
+                      Signature
+                    </div>
+                    <div id="insuranceAddon" style="display: none">
+                      <i
+                        class="fa-solid fa-shield"
+                        style="color: #00a6a6; margin-right: 5px"
+                      ></i>
+                      Insurance
+                    </div>
+                    <div id="saturdayAddon" style="display: none">
+                      <i
+                        class="fa-solid fa-calendar"
+                        style="color: #00a6a6; margin-right: 5px"
+                      ></i>
+                      Saturday Delivery
+                    </div>
+                    <div id="packagingAddon" style="display: none">
+                      <i
+                        class="fa-solid fa-box"
+                        style="color: #00a6a6; margin-right: 5px"
+                      ></i>
+                      Packaging
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px"
+                >
+                  <p>
+                    This quote is valid for 30 days from today. Prices may vary
+                    if shipment details change.
+                  </p>
+                </div>
+
+                <div class="quote-actions">
+                  <button class="btn btn-primary" id="proceedBtn">
+                    <i class="fa-solid fa-box"></i> Proceed to Shipping
+                  </button>
+                  <button class="btn btn-outline" id="saveQuoteBtn">
+                    <i class="fa-solid fa-bookmark"></i> Save Quote
+                  </button>
+                  <button class="btn btn-outline" id="emailQuoteBtn">
+                    <i class="fa-solid fa-envelope"></i> Email Quote
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Tips (only visible on mobile) -->
+            <div class="tips-mobile">
+              <h3>Shipping Tips</h3>
+              <ul
+                class="tips-list"
+                style="list-style: none; padding: 0; margin: 16px 0 0"
+              >
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-box"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Packaging:</strong> Use sturdy boxes and padding.
+                </li>
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-weight-scale"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Weight accuracy:</strong> Weigh before quoting to
+                  avoid surcharges.
+                </li>
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-location-dot"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Address:</strong> Provide full, accurate delivery
+                  addresses.
+                </li>
+                <li style="padding-left: 24px; position: relative">
+                  <i
+                    class="fa-solid fa-user"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Save:</strong> Account holders save time with saved
+                  addresses.
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Sidebar - only visible on desktop -->
+          <aside class="quote-sidebar">
+            <div class="card calculator-card">
+              <h3>Quick Calculator</h3>
+              <p class="muted">
+                Get an instant estimate based on weight & service
+              </p>
+
+              <div class="calculator-form">
+                <div class="form-group weight-input">
+                  <label for="calcWeight">Weight</label>
+                  <input id="calcWeight" type="number" min="0.1" step="0.1" />
+                </div>
+
+                <label for="calcService">Service</label>
+                <select id="calcService">
+                  <option value="">Select</option>
+                  <option value="express">Express</option>
+                  <option value="standard">Standard</option>
+                  <option value="freight">Freight</option>
+                  <option value="international">International</option>
+                </select>
+
+                <button
+                  type="button"
+                  id="calculateBtn"
+                  class="btn btn-primary"
+                  style="width: 100%; margin-top: 15px"
+                >
+                  Calculate
+                </button>
+
+                <div
+                  id="quickQuoteResult"
+                  class="calc-result"
+                  style="margin-top: 20px"
+                >
+                  Enter details above
+                </div>
+              </div>
+            </div>
+
+            <div class="card tips-card">
+              <h3>Shipping Tips</h3>
+              <ul
+                class="tips-list"
+                style="list-style: none; padding: 0; margin: 0"
+              >
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-box"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Packaging:</strong> Use sturdy boxes and padding.
+                </li>
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-weight-scale"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Weight accuracy:</strong> Weigh before quoting to
+                  avoid surcharges.
+                </li>
+                <li
+                  style="
+                    margin-bottom: 12px;
+                    padding-left: 24px;
+                    position: relative;
+                  "
+                >
+                  <i
+                    class="fa-solid fa-location-dot"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Address:</strong> Provide full, accurate delivery
+                  addresses.
+                </li>
+                <li style="padding-left: 24px; position: relative">
+                  <i
+                    class="fa-solid fa-user"
+                    style="position: absolute; left: 0; color: #00a6a6"
+                  ></i>
+                  <strong>Save:</strong> Account holders save time with saved
+                  addresses.
+                </li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>Need Assistance?</h3>
+              <p style="margin-bottom: 20px">
+                Our shipping experts are ready to help you choose the best
+                service for your needs.
+              </p>
+              <button
+                type="button"
+                class="btn btn-outline"
+                style="width: 100%; margin-bottom: 10px"
+                onclick="location.href = 'contact.html'"
+              >
+                <i class="fa-solid fa-headset"></i> Contact Support
+              </button>
+              <div style="text-align: center; margin-top: 15px">
+                <p style="font-weight: 600; margin-bottom: 5px">
+                  Call us directly
+                </p>
+                <p style="font-size: 1.1rem; color: #00a6a6">
+                  <i class="fa-solid fa-phone"></i> +234 800 263 7391
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Service comparison table -->
+        <section class="service-comparison card" style="margin-top: 60px">
+          <h2>Service Comparison</h2>
+          <div class="table-wrap">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th scope="col">Service</th>
+                  <th scope="col">Delivery Time</th>
+                  <th scope="col">Price Range</th>
+                  <th scope="col">Tracking</th>
+                  <th scope="col">Insurance</th>
+                  <th scope="col">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Express</strong></td>
+                  <td>1–2 business days</td>
+                  <td>$15.99 – $89.99</td>
+                  <td>Real-time</td>
+                  <td>Included</td>
+                  <td>Urgent documents, time-sensitive packages</td>
+                </tr>
+                <tr>
+                  <td><strong>Standard</strong></td>
+                  <td>3–5 business days</td>
+                  <td>$9.99 – $49.99</td>
+                  <td>Real-time</td>
+                  <td>Optional</td>
+                  <td>Regular shipments, e-commerce</td>
+                </tr>
+                <tr>
+                  <td><strong>Freight</strong></td>
+                  <td>5–7 business days</td>
+                  <td>$5.99 / lb+</td>
+                  <td>Daily updates</td>
+                  <td>Available</td>
+                  <td>Heavy items, pallets, bulk shipping</td>
+                </tr>
+                <tr>
+                  <td><strong>International</strong></td>
+                  <td>7–14 business days</td>
+                  <td>$25.99+</td>
+                  <td>Real-time</td>
+                  <td>Recommended</td>
+                  <td>Global shipping, export/import</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq card" style="margin-top: 40px">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>How accurate are the online quotes?</summary>
+              <div class="faq-body">
+                <p>
+                  Online quotes are close estimates and include standard fees.
+                  Final pricing is confirmed at pickup and can change slightly
+                  based on actual weight/dimensions and surcharges.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I modify my shipment after getting a quote?</summary>
+              <div class="faq-body">
+                <p>
+                  Yes – you can modify details before confirming booking.
+                  Changes after confirmation may incur additional fees.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>How long is my quote valid?</summary>
+              <div class="faq-body">
+                <p>
+                  Quotes are valid for 30 days from generation. Fuel surcharges
+                  and other fees may change after this period.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Are there any hidden fees?</summary>
+              <div class="faq-body">
+                <p>
+                  No – we display standard fees. Additional optional services
+                  (signature, insurance, Saturday delivery) are shown clearly in
+                  the form.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Do you offer packaging services?</summary>
+              <div class="faq-body">
+                <p>
+                  Yes, we offer professional packaging services for an
+                  additional fee. Our experts will ensure your items are
+                  properly secured using industry-standard materials to prevent
+                  damage during transit.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>What payment methods do you accept?</summary>
+              <div class="faq-body">
+                <p>
+                  We accept all major credit cards, bank transfers, and PayPal.
+                  For business accounts, we also offer invoicing options with
+                  approved credit terms.
+                </p>
+              </div>
+            </details>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h4>Amerex</h4>
+            <p>
+              Delivering Beyond Borders. Trusted logistics, freight and cargo
+              solutions across the globe.
+            </p>
+            <div style="margin-top: 16px">
+              <p style="margin-bottom: 8px">
+                <i class="fa-solid fa-location-dot"></i> 350 Cargo Drive,
+                Industrial Zone, Lagos, Nigeria
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">Maritime Freight</a></li>
+              <li><a href="services.html">Land Freight</a></li>
+              <li><a href="services.html">Rail Freight</a></li>
+              <li><a href="quote.html">Get Quote</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="track.html">Track Shipment</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-phone"></i> +234 800 263 7391</p>
+            <p><i class="fa-solid fa-envelope"></i> support@amerex.com</p>
+            <p><i class="fa-solid fa-clock"></i> Mon-Sat: 8:00 AM - 8:00 PM</p>
+
+            <div class="footer-follow" style="margin-top: 16px">
+              <h4>Follow Us</h4>
+              <div class="socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <small
+            >&copy; 2026 Amerex Transportation Inc. All rights reserved. |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Privacy Policy</a
+            >
+            |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Terms of Service</a
+            ></small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- GLOBAL UI DIALOG -->
+    <div id="uiDialog" class="ui-dialog hidden">
+      <div class="ui-dialog-backdrop"></div>
+
+      <div class="ui-dialog-box">
+        <div class="ui-dialog-icon" id="uiDialogIcon"></div>
+
+        <h3 id="uiDialogTitle"></h3>
+        <p id="uiDialogMessage"></p>
+
+        <div class="ui-dialog-actions" id="uiDialogActions">
+          <button class="ui-btn primary" id="uiDialogOk">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL LOADER OVERLAY -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Global config -->
+    <script src="js/supabase-config.js"></script>
+
+    <!-- Global UI / helpers -->
+    <script src="js/Main.js" defer></script>
+    <script src="js/quote.js" defer></script>
+  </body>
+</html>

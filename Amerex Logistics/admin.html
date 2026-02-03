@@ -1,0 +1,1592 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Amerex Logistics</title>
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <!-- Meta -->
+    <meta
+      name="description"
+      content="Admin dashboard for managing Amerex logistics operations"
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+      type="image/png"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <!-- Scripts -->
+    <script src="js/Main.js"></script>
+    <script src="js/admin.js"></script>
+  </head>
+
+  <body class="admin-body">
+    <!-- TOP NAVBAR -->
+    <nav class="admin-topbar">
+      <div class="admin-topbar-left">
+        <button class="admin-menu-toggle" id="adminMenuToggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="admin.html" class="admin-brand">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Amerex Admin</span>
+        </a>
+      </div>
+
+      <div class="admin-topbar-center">
+        <div class="admin-search">
+          <i class="fa-solid fa-search"></i>
+          <input
+            type="text"
+            id="globalSearch"
+            placeholder="Search tracking numbers, users, tickets..."
+          />
+        </div>
+      </div>
+
+      <div class="admin-topbar-right">
+        <!-- Notifications -->
+        <button
+          class="admin-icon-btn"
+          id="adminNotificationsBtn"
+          onclick="toggleAdminNotifications()"
+        >
+          <i class="fa-solid fa-bell"></i>
+          <span class="badge" id="adminNotifBadge">0</span>
+        </button>
+
+        <!-- Admin Profile -->
+        <div class="admin-profile" id="adminProfile">
+          <div class="admin-avatar" id="adminAvatar">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div class="admin-profile-info">
+            <div class="admin-name" id="adminName">Loading...</div>
+            <div class="admin-role" id="adminRole">Super Admin</div>
+          </div>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="admin-dropdown" id="adminProfileDropdown">
+          <a href="dashboard.html">
+            <i class="fa-solid fa-user"></i> User Dashboard
+          </a>
+          <a href="#" onclick="viewSystemLogs()">
+            <i class="fa-solid fa-file-lines"></i> System Logs
+          </a>
+          <a href="#" onclick="openAdminSettings()">
+            <i class="fa-solid fa-cog"></i> Settings
+          </a>
+          <hr />
+          <a href="#" onclick="handleAdminLogout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- NOTIFICATIONS PANEL -->
+    <div class="admin-notifications-panel" id="adminNotificationsPanel">
+      <div class="admin-notifications-header">
+        <h3>Notifications</h3>
+        <button class="text-btn" onclick="markAllAdminNotificationsRead()">
+          Mark all read
+        </button>
+      </div>
+      <div class="admin-notifications-body" id="adminNotificationsBody">
+        <div class="loading-state">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>Loading notifications...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <ul class="admin-nav">
+        <li>
+          <a href="#" class="admin-nav-link active" data-page="dashboard">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="shipments">
+            <i class="fa-solid fa-box"></i>
+            <span>Shipments</span>
+            <span class="nav-badge" id="pendingShipmentsBadge">0</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="users">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="tracking">
+            <i class="fa-solid fa-route"></i>
+            <span>Tracking Updates</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="payments">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <span>Payments</span>
+            <span class="nav-badge bg-warning" id="pendingPaymentsBadge"
+              >0</span
+            >
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="tickets">
+            <i class="fa-solid fa-headset"></i>
+            <span>Support Tickets</span>
+            <span class="nav-badge bg-danger" id="openTicketsBadge">0</span>
+          </a>
+        </li>
+        <li class="nav-divider"></li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="analytics">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="admin-nav-link" data-page="settings">
+            <i class="fa-solid fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <!-- DASHBOARD PAGE -->
+      <div id="dashboard" class="admin-page active">
+        <div class="admin-page-header">
+          <div>
+            <h1>Dashboard Overview</h1>
+            <p>Welcome back! Here's what's happening today.</p>
+          </div>
+          <button class="btn btn-primary" onclick="refreshDashboard()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-primary">
+              <i class="fa-solid fa-box"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Total Shipments</div>
+              <div class="stat-value" id="totalShipmentsCount">0</div>
+              <div class="stat-change positive">
+                <i class="fa-solid fa-arrow-up"></i> 12% from last month
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-warning">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Pending Approval</div>
+              <div class="stat-value" id="pendingApprovalsCount">0</div>
+              <div class="stat-change">
+                <i class="fa-solid fa-minus"></i> No change
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-success">
+              <i class="fa-solid fa-truck"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">In Transit</div>
+              <div class="stat-value" id="inTransitCount">0</div>
+              <div class="stat-change positive">
+                <i class="fa-solid fa-arrow-up"></i> 8% increase
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-info">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Total Users</div>
+              <div class="stat-value" id="totalUsersCount">0</div>
+              <div class="stat-change positive">
+                <i class="fa-solid fa-arrow-up"></i> 5 new this week
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-danger">
+              <i class="fa-solid fa-ticket"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Open Tickets</div>
+              <div class="stat-value" id="openTicketsCount">0</div>
+              <div class="stat-change negative">
+                <i class="fa-solid fa-arrow-down"></i> 3 resolved today
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="stat-icon bg-purple">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Revenue (MTD)</div>
+              <div class="stat-value" id="revenueCount">$0</div>
+              <div class="stat-change positive">
+                <i class="fa-solid fa-arrow-up"></i> 15% growth
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="admin-grid-2">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3>Recent Shipments</h3>
+              <a href="#" onclick="switchPage('shipments')" class="text-link"
+                >View all</a
+              >
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Tracking #</th>
+                      <th>Status</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentShipmentsTable">
+                    <tr>
+                      <td colspan="4" class="text-center">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="card-header">
+              <h3>Pending Actions</h3>
+              <span class="badge bg-warning" id="pendingActionsCount">0</span>
+            </div>
+            <div class="card-body">
+              <div class="pending-actions-list" id="pendingActionsList">
+                <div class="loading-state">
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+                  <p>Loading pending actions...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHIPMENTS PAGE -->
+      <div id="shipments" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Shipments Management</h1>
+            <p>View and manage all shipments</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" onclick="exportShipmentsCSV()">
+              <i class="fa-solid fa-download"></i> Export CSV
+            </button>
+            <button class="btn btn-primary" onclick="openCreateShipmentModal()">
+              <i class="fa-solid fa-plus"></i> Create Shipment
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="admin-filters">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="shipmentSearch"
+              placeholder="Search by tracking number..."
+              class="filter-input"
+            />
+          </div>
+          <div class="filter-group">
+            <select id="shipmentStatusFilter" class="filter-select">
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in_transit">In Transit</option>
+              <option value="out_for_delivery">Out for Delivery</option>
+              <option value="delivered">Delivered</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <select id="shipmentApprovalFilter" class="filter-select">
+              <option value="all">All Approvals</option>
+              <option value="approved">Approved</option>
+              <option value="pending">Pending Approval</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <input type="date" id="shipmentDateFrom" class="filter-input" />
+            <span style="margin: 0 8px">to</span>
+            <input type="date" id="shipmentDateTo" class="filter-input" />
+          </div>
+          <button class="btn btn-outline" onclick="clearShipmentFilters()">
+            <i class="fa-solid fa-times"></i> Clear
+          </button>
+        </div>
+
+        <!-- Shipments Table -->
+        <div class="admin-card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <input
+                        type="checkbox"
+                        id="selectAllShipments"
+                        onclick="toggleSelectAllShipments()"
+                      />
+                    </th>
+                    <th>Tracking #</th>
+                    <th>Customer</th>
+                    <th>Route</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Cost</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="shipmentsTableBody">
+                  <tr>
+                    <td colspan="9" class="text-center">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                      shipments...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="table-info">
+              Showing <span id="shipmentsShowing">0</span> of
+              <span id="shipmentsTotal">0</span> shipments
+            </div>
+            <div class="table-pagination" id="shipmentsPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- USERS PAGE -->
+      <div id="users" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Users Management</h1>
+            <p>Manage registered users and their accounts</p>
+          </div>
+          <button class="btn btn-primary" onclick="exportUsersCSV()">
+            <i class="fa-solid fa-download"></i> Export Users
+          </button>
+        </div>
+
+        <!-- Users Filters -->
+        <div class="admin-filters">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="userSearch"
+              placeholder="Search by email or name..."
+              class="filter-input"
+            />
+          </div>
+          <div class="filter-group">
+            <select id="userSortBy" class="filter-select">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="most_shipments">Most Shipments</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="admin-card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Email</th>
+                    <th>Full Name</th>
+                    <th>Phone</th>
+                    <th>Shipments</th>
+                    <th>Total Spent</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <tr>
+                    <td colspan="8" class="text-center">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                      users...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="table-info">
+              Showing <span id="usersShowing">0</span> of
+              <span id="usersTotal">0</span> users
+            </div>
+            <div class="table-pagination" id="usersPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACKING UPDATES PAGE -->
+      <div id="tracking" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Tracking Updates</h1>
+            <p>Add and manage tracking updates for shipments</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddTrackingModal()">
+            <i class="fa-solid fa-plus"></i> Add Update
+          </button>
+        </div>
+
+        <!-- Quick Add Form -->
+        <div class="admin-card">
+          <div class="card-header">
+            <h3>Quick Add Tracking Update</h3>
+          </div>
+          <div class="card-body">
+            <form id="quickTrackingForm" onsubmit="addQuickTracking(event)">
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label for="quickTrackingNumber">Tracking Number</label>
+                  <input
+                    type="text"
+                    id="quickTrackingNumber"
+                    required
+                    placeholder="AMX1-2345-6789-ABCD"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="quickTrackingStatus">Status</label>
+                  <input
+                    type="text"
+                    id="quickTrackingStatus"
+                    required
+                    placeholder="e.g., In Transit"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="quickTrackingLocation">Location</label>
+                  <input
+                    type="text"
+                    id="quickTrackingLocation"
+                    required
+                    placeholder="e.g., Lagos Hub"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="quickTrackingMessage">Message (Optional)</label>
+                <textarea
+                  id="quickTrackingMessage"
+                  rows="2"
+                  placeholder="Additional details..."
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Add Update
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Recent Updates -->
+        <div class="admin-card">
+          <div class="card-header">
+            <h3>Recent Tracking Updates</h3>
+          </div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Tracking #</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Message</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="trackingUpdatesTable">
+                  <tr>
+                    <td colspan="6" class="text-center">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                      updates...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENTS PAGE -->
+      <div id="payments" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Payments Management</h1>
+            <p>Monitor and approve payment transactions</p>
+          </div>
+          <button class="btn btn-outline" onclick="exportPaymentsCSV()">
+            <i class="fa-solid fa-download"></i> Export
+          </button>
+        </div>
+
+        <!-- Payment Stats -->
+        <div class="admin-grid-3">
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value-lg" id="totalRevenue">$0.00</div>
+          </div>
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Pending Payments</div>
+            <div class="stat-value-lg text-warning" id="pendingPaymentsAmount">
+              $0.00
+            </div>
+          </div>
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Paid This Month</div>
+            <div class="stat-value-lg text-success" id="paidThisMonth">
+              $0.00
+            </div>
+          </div>
+        </div>
+
+        <!-- Payments Filters -->
+        <div class="admin-filters">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="paymentSearch"
+              placeholder="Search by invoice or tracking..."
+              class="filter-input"
+            />
+          </div>
+          <div class="filter-group">
+            <select id="paymentStatusFilter" class="filter-select">
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="failed">Failed</option>
+              <option value="refunded">Refunded</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <select id="paymentMethodFilter" class="filter-select">
+              <option value="all">All Methods</option>
+              <option value="cryptocurrency">Cryptocurrency</option>
+              <option value="credit_card">Credit Card</option>
+              <option value="bank_transfer">Bank Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Payments Table -->
+        <div class="admin-card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Invoice #</th>
+                    <th>Customer</th>
+                    <th>Tracking #</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="paymentsTableBody">
+                  <tr>
+                    <td colspan="8" class="text-center">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                      payments...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="table-info">
+              Showing <span id="paymentsShowing">0</span> of
+              <span id="paymentsTotal">0</span> payments
+            </div>
+            <div class="table-pagination" id="paymentsPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPPORT TICKETS PAGE -->
+      <div id="tickets" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Support Tickets</h1>
+            <p>Manage customer support requests</p>
+          </div>
+        </div>
+
+        <!-- Ticket Stats -->
+        <div class="admin-grid-4">
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Open</div>
+            <div class="stat-value-lg text-danger" id="openTicketsTotal">0</div>
+          </div>
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">In Progress</div>
+            <div class="stat-value-lg text-warning" id="inProgressTickets">
+              0
+            </div>
+          </div>
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Resolved Today</div>
+            <div class="stat-value-lg text-success" id="resolvedToday">0</div>
+          </div>
+          <div class="admin-stat-card-sm">
+            <div class="stat-label">Avg Response Time</div>
+            <div class="stat-value-lg" id="avgResponseTime">0h</div>
+          </div>
+        </div>
+
+        <!-- Ticket Filters -->
+        <div class="admin-filters">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="ticketSearch"
+              placeholder="Search by ticket # or subject..."
+              class="filter-input"
+            />
+          </div>
+          <div class="filter-group">
+            <select id="ticketStatusFilter" class="filter-select">
+              <option value="all">All Status</option>
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="waiting">Waiting</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <select id="ticketPriorityFilter" class="filter-select">
+              <option value="all">All Priority</option>
+              <option value="urgent">Urgent</option>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tickets Table -->
+        <div class="admin-card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Ticket #</th>
+                    <th>Customer</th>
+                    <th>Subject</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Last Update</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ticketsTableBody">
+                  <tr>
+                    <td colspan="8" class="text-center">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                      tickets...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="table-info">
+              Showing <span id="ticketsShowing">0</span> of
+              <span id="ticketsTotal">0</span> tickets
+            </div>
+            <div class="table-pagination" id="ticketsPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS PAGE -->
+      <div id="analytics" class="admin-page">
+        <div class="admin-page-header">
+          <div>
+            <h1>Analytics & Reports</h1>
+            <p>Insights and performance metrics</p>
+          </div>
+          <div class="header-actions">
+            <select class="filter-select">
+              <option>Last 7 days</option>
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>This year</option>
+            </select>
+            <button class="btn btn-outline">
+              <i class="fa-solid fa-download"></i> Export Report
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="card-body">
+            <div class="empty-state">
+              <i class="fa-solid fa-chart-pie fa-3x"></i>
+              <h3>Analytics Coming Soon</h3>
+              <p>Charts and reports will be available in the next update</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SETTINGS PAGE ==================== -->
+      <div id="settings" class="admin-page">
+        <div class="page-header">
+          <div>
+            <h1><i class="fa-solid fa-cog"></i> Admin Settings</h1>
+            <p class="page-subtitle">
+              Manage admins, staff, system settings, and configurations
+            </p>
+          </div>
+        </div>
+
+        <!-- Settings Tabs -->
+        <div class="settings-tabs">
+          <button class="settings-tab active" data-tab="admins">
+            <i class="fa-solid fa-user-shield"></i> Admin Users
+          </button>
+          <button class="settings-tab" data-tab="system">
+            <i class="fa-solid fa-server"></i> System Settings
+          </button>
+          <button class="settings-tab" data-tab="email">
+            <i class="fa-solid fa-envelope"></i> Email Settings
+          </button>
+          <button class="settings-tab" data-tab="payment">
+            <i class="fa-solid fa-credit-card"></i> Payment Settings
+          </button>
+          <button class="settings-tab" data-tab="notifications">
+            <i class="fa-solid fa-bell"></i> Notifications
+          </button>
+        </div>
+
+        <!-- ==================== ADMIN USERS TAB ==================== -->
+        <div id="admins-tab" class="settings-tab-content active">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3>
+                <i class="fa-solid fa-users-gear"></i> Admin & Staff Management
+              </h3>
+              <button class="btn btn-primary" onclick="openAddAdminModal()">
+                <i class="fa-solid fa-plus"></i> Add Admin/Staff
+              </button>
+            </div>
+
+            <div class="card-body">
+              <!-- Admin Users Table -->
+              <div class="table-container">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Permissions</th>
+                      <th>Status</th>
+                      <th>Added</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminUsersTableBody">
+                    <tr>
+                      <td colspan="7" class="text-center">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== SYSTEM SETTINGS TAB ==================== -->
+        <div id="system-tab" class="settings-tab-content">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-sliders"></i> System Configuration</h3>
+              <button class="btn btn-primary" onclick="saveSystemSettings()">
+                <i class="fa-solid fa-save"></i> Save Changes
+              </button>
+            </div>
+
+            <div class="card-body">
+              <form id="systemSettingsForm">
+                <div class="settings-grid">
+                  <div class="setting-item">
+                    <label>Site Name</label>
+                    <input type="text" id="siteName" value="Amerex Logistics" />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Support Email</label>
+                    <input
+                      type="email"
+                      id="supportEmail"
+                      value="support@amerex.com"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Support Phone</label>
+                    <input
+                      type="tel"
+                      id="supportPhone"
+                      value="+234 800 263 7391"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Default Currency</label>
+                    <select id="defaultCurrency">
+                      <option value="USD" selected>USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                      <option value="NGN">NGN (₦)</option>
+                    </select>
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Tax Rate (%)</label>
+                    <input
+                      type="number"
+                      id="taxRate"
+                      value="10"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Minimum Shipment Value ($)</label>
+                    <input
+                      type="number"
+                      id="minShipmentValue"
+                      value="10"
+                      min="0"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Auto-Approve Shipments</label>
+                    <select id="autoApproveShipments">
+                      <option value="false" selected>
+                        No - Require Manual Approval
+                      </option>
+                      <option value="true">Yes - Auto-Approve All</option>
+                    </select>
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Maintenance Mode</label>
+                    <select id="maintenanceMode">
+                      <option value="false" selected>Off - Site Active</option>
+                      <option value="true">On - Site Under Maintenance</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="setting-item" style="margin-top: 24px">
+                  <label>Maintenance Message</label>
+                  <textarea
+                    id="maintenanceMessage"
+                    rows="3"
+                    placeholder="We're currently performing scheduled maintenance. Please check back soon."
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== EMAIL SETTINGS TAB ==================== -->
+        <div id="email-tab" class="settings-tab-content">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3>
+                <i class="fa-solid fa-envelope-open"></i> Email Configuration
+              </h3>
+              <button class="btn btn-primary" onclick="saveEmailSettings()">
+                <i class="fa-solid fa-save"></i> Save Settings
+              </button>
+            </div>
+
+            <div class="card-body">
+              <form id="emailSettingsForm">
+                <div class="settings-grid">
+                  <div class="setting-item">
+                    <label>Email Provider</label>
+                    <select id="emailProvider">
+                      <option value="resend" selected>Resend</option>
+                      <option value="sendgrid">SendGrid</option>
+                      <option value="mailgun">Mailgun</option>
+                    </select>
+                  </div>
+
+                  <div class="setting-item">
+                    <label>From Email</label>
+                    <input
+                      type="email"
+                      id="fromEmail"
+                      value="noreply@amerex.com"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>From Name</label>
+                    <input type="text" id="fromName" value="Amerex Logistics" />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Reply-To Email</label>
+                    <input
+                      type="email"
+                      id="replyToEmail"
+                      value="support@amerex.com"
+                    />
+                  </div>
+                </div>
+
+                <div class="setting-item" style="margin-top: 24px">
+                  <label>
+                    <input type="checkbox" id="emailNotifications" checked />
+                    Send email notifications for new shipments
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="emailTracking" checked />
+                    Send tracking update emails to customers
+                  </label>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== PAYMENT SETTINGS TAB ==================== -->
+        <div id="payment-tab" class="settings-tab-content">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3>
+                <i class="fa-solid fa-credit-card"></i> Payment Gateway Settings
+              </h3>
+              <button class="btn btn-primary" onclick="savePaymentSettings()">
+                <i class="fa-solid fa-save"></i> Save Settings
+              </button>
+            </div>
+
+            <div class="card-body">
+              <div class="alert alert-warning">
+                <i class="fa-solid fa-exclamation-triangle"></i>
+                <strong>Warning:</strong> Keep your API keys secure. Never share
+                them publicly.
+              </div>
+
+              <form id="paymentSettingsForm">
+                <h4 style="margin-bottom: 16px">Stripe Configuration</h4>
+
+                <div class="settings-grid">
+                  <div class="setting-item">
+                    <label>Stripe Mode</label>
+                    <select id="stripeMode">
+                      <option value="test" selected>Test Mode</option>
+                      <option value="live">Live Mode</option>
+                    </select>
+                  </div>
+
+                  <div class="setting-item">
+                    <label>Publishable Key</label>
+                    <input
+                      type="text"
+                      id="stripePublishableKey"
+                      placeholder="pk_test_..."
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <label>
+                      <input type="checkbox" id="enableCryptocurrency" />
+                      Enable Cryptocurrency Payments
+                    </label>
+                  </div>
+
+                  <div class="setting-item">
+                    <label>
+                      <input type="checkbox" id="enableBankTransfer" />
+                      Enable Bank Transfer
+                    </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== NOTIFICATIONS TAB ==================== -->
+        <div id="notifications-tab" class="settings-tab-content">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-bell"></i> Notification Preferences</h3>
+              <button
+                class="btn btn-primary"
+                onclick="saveNotificationSettings()"
+              >
+                <i class="fa-solid fa-save"></i> Save Settings
+              </button>
+            </div>
+
+            <div class="card-body">
+              <form id="notificationSettingsForm">
+                <h4 style="margin-bottom: 16px">Admin Notifications</h4>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyNewShipment" checked />
+                    Notify me when new shipment is created
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyNewPayment" checked />
+                    Notify me when payment is received
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyNewTicket" checked />
+                    Notify me when support ticket is created
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyNewUser" />
+                    Notify me when new user signs up
+                  </label>
+                </div>
+
+                <h4 style="margin: 24px 0 16px">Notification Method</h4>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyEmail" checked />
+                    Email notifications
+                  </label>
+                </div>
+
+                <div class="setting-item">
+                  <label>
+                    <input type="checkbox" id="notifyBrowser" checked />
+                    Browser notifications
+                  </label>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ADD ADMIN MODAL ==================== -->
+      <div id="addAdminModal" class="modal">
+        <div class="modal-content" style="max-width: 600px">
+          <div class="modal-header">
+            <h3><i class="fa-solid fa-user-plus"></i> Add Admin/Staff User</h3>
+            <button class="modal-close" onclick="closeModal('addAdminModal')">
+              &times;
+            </button>
+          </div>
+
+          <form id="addAdminForm" onsubmit="createAdminUser(event)">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Email Address *</label>
+                <input
+                  type="email"
+                  id="newAdminEmail"
+                  required
+                  placeholder="admin@amerex.com"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Role *</label>
+                <select id="newAdminRole" required>
+                  <option value="">Select Role</option>
+                  <option value="super_admin">Super Admin (Full Access)</option>
+                  <option value="admin">Admin (Most Access)</option>
+                  <option value="staff">Staff (Limited Access)</option>
+                  <option value="support">Support (Tickets Only)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Permissions</label>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permViewShipments" checked />
+                    View Shipments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permApproveShipments" checked />
+                    Approve Shipments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permManageUsers" /> Manage Users
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permManagePayments" checked />
+                    Manage Payments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permManageTickets" checked />
+                    Manage Support Tickets
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="permViewReports" /> View Reports
+                  </label>
+                </div>
+              </div>
+
+              <div class="alert alert-info" style="margin-top: 16px">
+                <i class="fa-solid fa-info-circle"></i>
+                An invitation email will be sent to this address with setup
+                instructions.
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="closeModal('addAdminModal')"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Add Admin User
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== EDIT ADMIN MODAL ==================== -->
+      <div id="editAdminModal" class="modal">
+        <div class="modal-content" style="max-width: 600px">
+          <div class="modal-header">
+            <h3><i class="fa-solid fa-user-edit"></i> Edit Admin User</h3>
+            <button class="modal-close" onclick="closeModal('editAdminModal')">
+              &times;
+            </button>
+          </div>
+
+          <form id="editAdminForm" onsubmit="updateAdminUser(event)">
+            <input type="hidden" id="editAdminId" />
+
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  id="editAdminEmail"
+                  readonly
+                  style="background: #f3f4f6; cursor: not-allowed"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Role *</label>
+                <select id="editAdminRole" required>
+                  <option value="super_admin">Super Admin</option>
+                  <option value="admin">Admin</option>
+                  <option value="staff">Staff</option>
+                  <option value="support">Support</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Status</label>
+                <select id="editAdminStatus">
+                  <option value="active">Active</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Permissions</label>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermViewShipments" /> View
+                    Shipments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermApproveShipments" />
+                    Approve Shipments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermManageUsers" /> Manage
+                    Users
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermManagePayments" /> Manage
+                    Payments
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermManageTickets" /> Manage
+                    Support Tickets
+                  </label>
+                  <label style="font-weight: 400">
+                    <input type="checkbox" id="editPermViewReports" /> View
+                    Reports
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="closeModal('editAdminModal')"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- MODALS -->
+
+    <!-- Edit Shipment Modal -->
+    <div class="admin-modal" id="editShipmentModal">
+      <div class="admin-modal-dialog">
+        <div class="admin-modal-content">
+          <div class="admin-modal-header">
+            <h3><i class="fa-solid fa-edit"></i> Edit Shipment</h3>
+            <button
+              class="modal-close"
+              onclick="closeModal('editShipmentModal')"
+            >
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="admin-modal-body">
+            <form id="editShipmentForm" onsubmit="saveShipmentEdit(event)">
+              <input type="hidden" id="editShipmentId" />
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="editShipmentStatus">Status *</label>
+                  <select id="editShipmentStatus" required>
+                    <option value="pending">Pending</option>
+                    <option value="in_transit">In Transit</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="editShipmentLocation">Current Location</label>
+                  <input
+                    type="text"
+                    id="editShipmentLocation"
+                    placeholder="e.g., Lagos Distribution Center"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="editShipmentApproved" />
+                  Mark as Admin Approved
+                </label>
+              </div>
+
+              <hr />
+
+              <h4 style="margin: 20px 0 16px">
+                Add Tracking Update (Optional)
+              </h4>
+
+              <div class="form-group">
+                <label for="editTrackingStatus">Update Status</label>
+                <input
+                  type="text"
+                  id="editTrackingStatus"
+                  placeholder="e.g., Package arrived at facility"
+                />
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="editTrackingLocation">Location</label>
+                  <input
+                    type="text"
+                    id="editTrackingLocation"
+                    placeholder="City, Country"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="editTrackingTimestamp">Timestamp</label>
+                  <input type="datetime-local" id="editTrackingTimestamp" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="editTrackingMessage">Message</label>
+                <textarea
+                  id="editTrackingMessage"
+                  rows="3"
+                  placeholder="Additional details..."
+                ></textarea>
+              </div>
+
+              <div class="modal-actions">
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  onclick="closeModal('editShipmentModal')"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-save"></i> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View User Modal -->
+    <div class="admin-modal" id="viewUserModal">
+      <div class="admin-modal-dialog">
+        <div class="admin-modal-content">
+          <div class="admin-modal-header">
+            <h3><i class="fa-solid fa-user"></i> User Details</h3>
+            <button class="modal-close" onclick="closeModal('viewUserModal')">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="admin-modal-body" id="userDetailsBody">
+            <div class="loading-state">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+              <p>Loading user details...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reply Ticket Modal -->
+    <div class="admin-modal" id="replyTicketModal">
+      <div class="admin-modal-dialog">
+        <div class="admin-modal-content">
+          <div class="admin-modal-header">
+            <h3><i class="fa-solid fa-reply"></i> Reply to Ticket</h3>
+            <button
+              class="modal-close"
+              onclick="closeModal('replyTicketModal')"
+            >
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="admin-modal-body">
+            <form id="replyTicketForm" onsubmit="sendTicketReply(event)">
+              <input type="hidden" id="replyTicketId" />
+
+              <div class="ticket-thread" id="ticketThread">
+                <!-- Ticket conversation will be loaded here -->
+              </div>
+
+              <div class="form-group">
+                <label for="ticketReplyMessage">Your Reply *</label>
+                <textarea
+                  id="ticketReplyMessage"
+                  rows="5"
+                  required
+                  placeholder="Type your reply..."
+                ></textarea>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="ticketReplyStatus">Update Status</label>
+                  <select id="ticketReplyStatus">
+                    <option value="">Keep current</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="waiting">Waiting for Customer</option>
+                    <option value="closed">Close Ticket</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="ticketReplyPriority">Update Priority</label>
+                  <select id="ticketReplyPriority">
+                    <option value="">Keep current</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="modal-actions">
+                <button
+                  type="button"
+                  class="btn btn-outline"
+                  .
+                  onclick="closeModal('replyTicketModal')"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-paper-plane"></i> Send Reply
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Payment Modal -->
+    <div class="admin-modal" id="viewPaymentModal">
+      <div class="admin-modal-dialog">
+        <div class="admin-modal-content">
+          <div class="admin-modal-header">
+            <h3><i class="fa-solid fa-receipt"></i> Payment Details</h3>
+            <button
+              class="modal-close"
+              onclick="closeModal('viewPaymentModal')"
+            >
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="admin-modal-body" id="paymentDetailsBody">
+            <div class="loading-state">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+              <p>Loading payment details...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL UI DIALOG -->
+    <div id="uiDialog" class="ui-dialog hidden">
+      <div class="ui-dialog-box">
+        <div id="uiDialogIcon" class="ui-dialog-icon"></div>
+        <h3 id="uiDialogTitle"></h3>
+        <p id="uiDialogMessage"></p>
+        <div id="uiDialogActions"></div>
+      </div>
+    </div>
+
+    <!-- GLOBAL LOADER -->
+    <div id="pageLoader" class="page-loader hidden">
+      <div class="loader-spinner"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>About Us - Amerex | Our Story & Mission</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Learn about Amerex's journey in delivering beyond borders. Discover our mission, values, and commitment to excellence in global logistics."
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="CSS/style.css" />
+
+    <!-- Add Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a class="nav-brand" href="index.html">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link active">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="ship-now-btn" onclick="location.href = 'quote.html'">
+            Request A Quote
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="menu">
+            <span class="bar"></span><span class="bar"></span
+            ><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <span class="hero-badge">
+            <i class="fa-solid fa-building"></i> About Amerex
+          </span>
+          <h1>Delivering Beyond Borders Since 2010</h1>
+          <p class="lead">
+            We are a global logistics company committed to connecting businesses
+            worldwide with reliable, efficient, and innovative shipping
+            solutions.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- OUR STORY -->
+    <section class="container" style="padding: 60px 20px">
+      <div class="section-head" style="text-align: center; margin-bottom: 40px">
+        <span class="section-tag">OUR STORY</span>
+        <h2>How We Started</h2>
+      </div>
+
+      <div
+        style="
+          max-width: 900px;
+          margin: 0 auto;
+          line-height: 1.8;
+          color: #4b5563;
+        "
+      >
+        <p style="margin-bottom: 20px">
+          Founded in 2010, Amerex began with a simple mission: to make global
+          logistics accessible, transparent, and reliable for businesses of all
+          sizes. What started as a small freight forwarding company in Lagos has
+          grown into a trusted international logistics partner serving clients
+          across 25+ countries.
+        </p>
+        <p style="margin-bottom: 20px">
+          Over the years, we've invested heavily in technology, infrastructure,
+          and partnerships to ensure that every shipment—whether by sea, land,
+          rail, or air—reaches its destination safely and on time. Our
+          commitment to excellence has earned us the trust of over 5,000
+          businesses worldwide.
+        </p>
+        <p>
+          Today, Amerex stands as a symbol of reliability in the logistics
+          industry, combining traditional values of customer service with
+          cutting-edge tracking technology and sustainable shipping practices.
+        </p>
+      </div>
+    </section>
+
+    <!-- MISSION & VISION -->
+    <section style="background: #f7fafb; padding: 60px 20px">
+      <div class="container">
+        <div class="services-grid">
+          <div class="card" style="padding: 40px; text-align: center">
+            <div style="font-size: 3rem; color: #00a6a6; margin-bottom: 20px">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <h3 style="margin-bottom: 16px; color: #012c3a">Our Mission</h3>
+            <p style="color: #6b7280; line-height: 1.7">
+              To deliver exceptional logistics services that empower businesses
+              to grow globally, while maintaining the highest standards of
+              safety, efficiency, and customer satisfaction.
+            </p>
+          </div>
+
+          <div class="card" style="padding: 40px; text-align: center">
+            <div style="font-size: 3rem; color: #ff7a3d; margin-bottom: 20px">
+              <i class="fa-solid fa-eye"></i>
+            </div>
+            <h3 style="margin-bottom: 16px; color: #012c3a">Our Vision</h3>
+            <p style="color: #6b7280; line-height: 1.7">
+              To be the world's most trusted logistics partner, recognized for
+              innovation, sustainability, and our unwavering commitment to
+              connecting businesses across borders.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE VALUES -->
+    <section class="container" style="padding: 60px 20px">
+      <div class="section-head" style="text-align: center; margin-bottom: 40px">
+        <span class="section-tag">CORE VALUES</span>
+        <h2>What We Stand For</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+          <h4>Integrity</h4>
+          <p>
+            We operate with honesty and transparency in every transaction,
+            building trust with our clients and partners.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+          <h4>Innovation</h4>
+          <p>
+            We embrace technology and creative solutions to continuously improve
+            our services and exceed expectations.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <h4>Excellence</h4>
+          <p>
+            We strive for perfection in every shipment, ensuring quality and
+            reliability in all our operations.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <h4>Customer Focus</h4>
+          <p>
+            Your success is our priority. We listen, adapt, and deliver
+            solutions tailored to your unique needs.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <h4>Sustainability</h4>
+          <p>
+            We're committed to eco-friendly practices and reducing our carbon
+            footprint in every shipment.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h4>Safety</h4>
+          <p>
+            We prioritize the security of your cargo and the well-being of our
+            team members at every stage.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BY THE NUMBERS -->
+    <section
+      style="
+        background: linear-gradient(135deg, #00a6a6 0%, #012c3a 100%);
+        padding: 60px 20px;
+        color: white;
+      "
+    >
+      <div class="container">
+        <div
+          class="section-head"
+          style="text-align: center; margin-bottom: 40px"
+        >
+          <h2 style="color: white">Amerex By The Numbers</h2>
+          <p style="color: rgba(255, 255, 255, 0.9)">
+            Our growth speaks to the trust our clients place in us
+          </p>
+        </div>
+
+        <div class="stats-row" style="justify-content: center; gap: 40px">
+          <div style="text-align: center">
+            <div
+              style="
+                font-size: 3rem;
+                font-weight: 800;
+                color: #ff7a3d;
+                margin-bottom: 8px;
+              "
+            >
+              15+
+            </div>
+            <div style="font-size: 1rem; color: rgba(255, 255, 255, 0.9)">
+              Years Experience
+            </div>
+          </div>
+          <div style="text-align: center">
+            <div
+              style="
+                font-size: 3rem;
+                font-weight: 800;
+                color: #ff7a3d;
+                margin-bottom: 8px;
+              "
+            >
+              50k+
+            </div>
+            <div style="font-size: 1rem; color: rgba(255, 255, 255, 0.9)">
+              Deliveries
+            </div>
+          </div>
+          <div style="text-align: center">
+            <div
+              style="
+                font-size: 3rem;
+                font-weight: 800;
+                color: #ff7a3d;
+                margin-bottom: 8px;
+              "
+            >
+              25+
+            </div>
+            <div style="font-size: 1rem; color: rgba(255, 255, 255, 0.9)">
+              Countries
+            </div>
+          </div>
+          <div style="text-align: center">
+            <div
+              style="
+                font-size: 3rem;
+                font-weight: 800;
+                color: #ff7a3d;
+                margin-bottom: 8px;
+              "
+            >
+              5k+
+            </div>
+            <div style="font-size: 1rem; color: rgba(255, 255, 255, 0.9)">
+              Happy Clients
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADERSHIP TEAM -->
+    <section class="container" style="padding: 60px 20px">
+      <div class="section-head" style="text-align: center; margin-bottom: 40px">
+        <span class="section-tag">OUR TEAM</span>
+        <h2>Leadership Team</h2>
+        <p>Meet the experts driving our vision forward</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="card" style="text-align: center; padding: 30px">
+          <div
+            style="
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, #00a6a6, #012c3a);
+              margin: 0 auto 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 3rem;
+              color: white;
+            "
+          >
+            <img class="founders" src="uploads/ceo.jpg" alt="" />
+          </div>
+          <h4 style="margin-bottom: 8px">Michael Okafor</h4>
+          <p style="color: #ff7a3d; font-weight: 600; margin-bottom: 12px">
+            CEO & Founder
+          </p>
+          <p style="color: #6b7280; font-size: 0.9rem">
+            15+ years in global logistics and supply chain management
+          </p>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 30px">
+          <div
+            style="
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, #ff7a3d, #ff915f);
+              margin: 0 auto 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 3rem;
+              color: white;
+            "
+          >
+            <img class="founders" src="uploads/cto.jpg" alt="" />
+          </div>
+          <h4 style="margin-bottom: 8px">Sarah Johnson</h4>
+          <p style="color: #ff7a3d; font-weight: 600; margin-bottom: 12px">
+            COO
+          </p>
+          <p style="color: #6b7280; font-size: 0.9rem">
+            Expert in operational excellence and process optimization
+          </p>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 30px">
+          <div
+            style="
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, #00a6a6, #012c3a);
+              margin: 0 auto 20px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 3rem;
+              color: white;
+            "
+          >
+            <img class="founders" src="uploads/cofounder.jpg" alt="" />
+          </div>
+          <h4 style="margin-bottom: 8px">David Chen</h4>
+          <p style="color: #ff7a3d; font-weight: 600; margin-bottom: 12px">
+            CTO
+          </p>
+          <p style="color: #6b7280; font-size: 0.9rem">
+            Leading innovation in logistics technology and tracking systems
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTNER LOGOS -->
+    <section class="partners container">
+      <div class="section-head" style="text-align: center; margin-bottom: 20px">
+        <h3 style="font-size: 1.1rem; color: #6b7280; font-weight: 600">
+          Trusted Partners
+        </h3>
+      </div>
+      <div class="partners-inner">
+        <img src="uploads/partner1.png" alt="partner" class="partner" />
+        <img src="uploads/partner2.png" alt="partner" class="partner" />
+        <img src="uploads/partner3.png" alt="partner" class="partner" />
+        <img src="uploads/partner4.png" alt="partner" class="partner" />
+        <img src="uploads/partner5.png" alt="partner" class="partner" />
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta container">
+      <div class="cta-inner">
+        <div class="cta-copy">
+          <h3>Ready to partner with us?</h3>
+          <p>
+            Join thousands of businesses that trust Amerex for their logistics
+            needs.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="quote.html">
+            <i class="fa-solid fa-paper-plane"></i> Get A Quote
+          </a>
+          <a class="btn btn-outline" href="contact.html">
+            <i class="fa-solid fa-headset"></i> Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h4>Amerex</h4>
+            <p>
+              Delivering Beyond Borders. Trusted logistics, freight and cargo
+              solutions across the globe.
+            </p>
+            <div style="margin-top: 16px">
+              <p style="margin-bottom: 8px">
+                <i class="fa-solid fa-location-dot"></i> 350 Cargo Drive,
+                Industrial Zone, Lagos, Nigeria
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">Maritime Freight</a></li>
+              <li><a href="services.html">Land Freight</a></li>
+              <li><a href="services.html">Rail Freight</a></li>
+              <li><a href="quote.html">Get Quote</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="track.html">Track Shipment</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-phone"></i> +234 800 263 7391</p>
+            <p>
+              <i class="fa-solid fa-envelope"></i>
+              info.amerexlogistics@gmail.com
+            </p>
+            <p><i class="fa-solid fa-clock"></i> Mon-Sat: 8:00 AM - 8:00 PM</p>
+
+            <div class="footer-follow" style="margin-top: 16px">
+              <h4>Follow Us</h4>
+              <div class="socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <small
+            >&copy; 2025 Amerex Transportation Inc. All rights reserved. |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Privacy Policy</a
+            >
+            |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Terms of Service</a
+            ></small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- GLOBAL LOADER OVERLAY -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+
+    <script src="js/Main.js"></script>
+  </body>
+</html>

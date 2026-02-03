@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amerex | Login & Signup</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Access or create your Amerex account to manage shipments, track packages, and unlock exclusive customer features."
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+      type="image/png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mobile-fixes.css" />
+
+    <!-- Add Supabase -->
+
+    <style>
+      /* Login Page Specific Styles */
+      .login-page {
+        padding: 40px 20px;
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .auth-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        transition: all 0.3s ease;
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .auth-header h2 {
+        color: #012c3a;
+        margin-bottom: 8px;
+        font-size: 1.8rem;
+      }
+
+      .auth-header p {
+        color: #6b7280;
+        font-size: 1rem;
+      }
+
+      .auth-form .form-group {
+        margin-bottom: 20px;
+      }
+
+      .auth-form label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #012c3a;
+      }
+
+      .auth-form input[type="text"],
+      .auth-form input[type="email"],
+      .auth-form input[type="password"],
+      .auth-form select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .auth-form input:focus,
+      .auth-form select:focus {
+        outline: none;
+        border-color: #00a6a6;
+        box-shadow: 0 0 0 3px rgba(0, 166, 166, 0.1);
+      }
+
+      .auth-form small {
+        display: block;
+        color: #6b7280;
+        font-size: 0.8rem;
+        margin-top: 6px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .password-field-wrapper {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .password-toggle:hover {
+        color: #00a6a6;
+      }
+
+      .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+
+      .checkbox-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #00a6a6;
+      }
+
+      .forgot-password {
+        color: #00a6a6;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .forgot-password:hover {
+        color: #ff7a3d;
+        text-decoration: underline;
+      }
+
+      .auth-divider {
+        position: relative;
+        text-align: center;
+        margin: 24px 0;
+      }
+
+      .auth-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e5e7eb;
+      }
+
+      .auth-divider span {
+        position: relative;
+        display: inline-block;
+        padding: 0 12px;
+        background: #fff;
+        color: #6b7280;
+        font-size: 0.9rem;
+      }
+
+      .social-login {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        font-size: 0.95rem;
+        width: 100%;
+      }
+
+      .social-btn:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+      }
+
+      .social-icon {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .google-btn .social-icon {
+        color: #db4437;
+      }
+
+      .microsoft-btn .social-icon {
+        color: #00a4ef;
+      }
+
+      .auth-switch {
+        text-align: center;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .auth-switch p {
+        color: #6b7280;
+        font-size: 0.95rem;
+      }
+
+      .auth-switch a {
+        color: #00a6a6;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .auth-switch a:hover {
+        color: #ff7a3d;
+        text-decoration: underline;
+      }
+
+      /* Form validation styles */
+      .form-group.error input {
+        border-color: #e53e3e;
+      }
+
+      .error-message {
+        color: #e53e3e;
+        font-size: 0.8rem;
+        margin-top: 4px;
+        display: none;
+      }
+
+      .form-group.error .error-message {
+        display: block;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
+        .auth-card {
+          padding: 30px 20px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .form-options {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+      }
+
+      /* UI Dialog styles */
+      .ui-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .ui-dialog-box {
+        background-color: white;
+        border-radius: 12px;
+        padding: 30px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .ui-dialog-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+
+      .ui-dialog-icon.success {
+        color: #10b981;
+      }
+
+      .ui-dialog-icon.error {
+        color: #ef4444;
+      }
+
+      .ui-dialog h3 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: #012c3a;
+      }
+
+      .ui-dialog p {
+        color: #6b7280;
+        margin-bottom: 24px;
+      }
+
+      .ui-dialog-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="nav-brand">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link active">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="ship-now-btn" onclick="location.href = 'quote.html'">
+            Request a Quote
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO / AUTH SECTION -->
+    <header class="hero" style="min-height: auto; padding: 10s0px 0 60px">
+      <div class="hero-overlay"></div>
+
+      <div class="container login-page">
+        <!-- Auth Container -->
+        <div class="login-container">
+          <!-- LOGIN -->
+          <div class="auth-card" id="loginCard">
+            <div class="auth-header">
+              <h2>Welcome Back</h2>
+              <p>Sign in to your Amerex account</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+              <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+                <div class="error-message" id="loginEmailError">
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <div class="password-field-wrapper">
+                  <input
+                    type="password"
+                    id="loginPassword"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    id="loginPasswordToggle"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+                <div class="error-message" id="loginPasswordError">
+                  Please enter your password
+                </div>
+              </div>
+
+              <div class="form-options">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="remember" id="rememberMe" />
+                  Remember me
+                </label>
+                <a href="#" class="forgot-password" id="forgotPasswordLink"
+                  >Forgot Password?</a
+                >
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="width: 100%"
+                id="loginButton"
+              >
+                Sign In
+              </button>
+            </form>
+
+            <div class="auth-divider"><span>or</span></div>
+
+            <div class="social-login">
+              <button
+                type="button"
+                class="social-btn google-btn"
+                id="googleLoginBtn"
+              >
+                <i class="fab fa-google social-icon"></i>
+                Sign in with Google
+              </button>
+              <button
+                type="button"
+                class="social-btn microsoft-btn"
+                id="microsoftLoginBtn"
+              >
+                <i class="fab fa-microsoft social-icon"></i>
+                Sign in with Microsoft
+              </button>
+            </div>
+
+            <div class="auth-switch">
+              <p>
+                Don't have an account?
+                <a href="#" id="showSignupBtn">Create Account</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- SIGNUP -->
+          <div class="auth-card" id="signupCard" style="display: none">
+            <div class="auth-header">
+              <h2>Create Account</h2>
+              <p>Join Amerex for a better shipping experience</p>
+            </div>
+
+            <form id="signupForm" class="auth-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="First name"
+                    required
+                  />
+                  <div class="error-message" id="firstNameError">
+                    Please enter your first name
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Last name"
+                    required
+                  />
+                  <div class="error-message" id="lastNameError">
+                    Please enter your last name
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="signupEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="signupEmail"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+                <div class="error-message" id="signupEmailError">
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="e.g., +1 234 567 8900"
+                  required
+                />
+                <div class="error-message" id="phoneNumberError">
+                  Please enter a valid phone number
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <div class="password-field-wrapper">
+                  <input
+                    type="password"
+                    id="signupPassword"
+                    name="password"
+                    placeholder="Create a strong password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    id="signupPasswordToggle"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+                <small
+                  >Password must be at least 8 characters with letters, numbers,
+                  and special characters</small
+                >
+                <div class="error-message" id="signupPasswordError">
+                  Password must be at least 8 characters
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="password-field-wrapper">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Re-enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    id="confirmPasswordToggle"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+                <div class="error-message" id="confirmPasswordError">
+                  Passwords do not match
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="accountType">Account Type</label>
+                <select id="accountType" name="accountType" required>
+                  <option value="" disabled selected>
+                    Select Account Type
+                  </option>
+                  <option value="personal">Personal</option>
+                  <option value="business">Business</option>
+                </select>
+                <div class="error-message" id="accountTypeError">
+                  Please select an account type
+                </div>
+              </div>
+
+              <!-- Business Fields - Show/hide based on account type selection -->
+              <div id="businessFields" style="display: none">
+                <div class="form-group">
+                  <label for="companyName">Company Name</label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    name="companyName"
+                    placeholder="Company name"
+                  />
+                  <div class="error-message" id="companyNameError">
+                    Please enter your company name
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="taxId">Tax ID / VAT Number (Optional)</label>
+                  <input
+                    type="text"
+                    id="taxId"
+                    name="taxId"
+                    placeholder="Tax/VAT ID"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="terms"
+                    id="termsCheck"
+                    required
+                  />
+                  I agree to the
+                  <a href="#" style="color: #00a6a6">Terms of Service</a> and
+                  <a href="#" style="color: #00a6a6">Privacy Policy</a>
+                </label>
+                <div class="error-message" id="termsError">
+                  You must agree to the terms and conditions
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    id="newsletterCheck"
+                  />
+                  Subscribe to our newsletter for exclusive offers and updates
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="width: 100%"
+                id="signupButton"
+              >
+                Create Account
+              </button>
+            </form>
+
+            <div class="auth-switch">
+              <p>
+                Already have an account?
+                <a href="#" id="showLoginBtn">Sign In</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- FORGOT PASSWORD -->
+          <div class="auth-card" id="forgotCard" style="display: none">
+            <div class="auth-header">
+              <h2>Reset Password</h2>
+              <p>Enter your email to receive reset instructions</p>
+            </div>
+
+            <form id="forgotForm" class="auth-form">
+              <div class="form-group">
+                <label for="forgotEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="forgotEmail"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+                <div class="error-message" id="forgotEmailError">
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="width: 100%"
+                id="resetPasswordButton"
+              >
+                Send Reset Link
+              </button>
+            </form>
+
+            <div class="auth-switch">
+              <p>
+                Remember your password?
+                <a href="#" id="backToLoginBtn">Back to Sign In</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BENEFITS SECTION -->
+    <section style="padding: 60px 0; background: #f7fafb">
+      <div class="container">
+        <div
+          class="section-head"
+          style="text-align: center; margin-bottom: 40px"
+        >
+          <h2>Why Create an Account?</h2>
+          <p>Unlock exclusive features and manage your shipments with ease</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+              <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <h4>Faster Checkout</h4>
+            <p>
+              Save your shipping addresses and payment methods for quick
+              bookings.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <h4>Order History</h4>
+            <p>
+              Track all your past and current shipments in one convenient
+              dashboard.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+              <i class="fa-solid fa-tag"></i>
+            </div>
+            <h4>Exclusive Discounts</h4>
+            <p>
+              Get access to special rates and promotions for registered
+              customers.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+            <h4>Real-time Alerts</h4>
+            <p>
+              Receive instant notifications about your shipment status via email
+              and SMS.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+              <i class="fa-solid fa-file-invoice"></i>
+            </div>
+            <h4>Digital Invoices</h4>
+            <p>
+              Access and download invoices for all your shipments anytime,
+              anywhere.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <h4>Priority Support</h4>
+            <p>Get dedicated customer support with faster response times.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h4>Amerex</h4>
+            <p>
+              Delivering Beyond Borders. Trusted logistics, freight and cargo
+              solutions across the globe.
+            </p>
+            <div style="margin-top: 16px">
+              <p style="margin-bottom: 8px">
+                <i class="fa-solid fa-location-dot"></i> 350 Cargo Drive,
+                Industrial Zone, Lagos, Nigeria
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">Maritime Freight</a></li>
+              <li><a href="services.html">Land Freight</a></li>
+              <li><a href="services.html">Rail Freight</a></li>
+              <li><a href="quote.html">Get Quote</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="track.html">Track Shipment</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-phone"></i> +234 800 263 7391</p>
+            <p><i class="fa-solid fa-envelope"></i> support@amerex.com</p>
+            <p><i class="fa-solid fa-clock"></i> Mon-Sat: 8:00 AM - 8:00 PM</p>
+
+            <div class="footer-follow" style="margin-top: 16px">
+              <h4>Follow Us</h4>
+              <div class="socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <small
+            >&copy; 2026 Amerex Transportation Inc. All rights reserved. |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Privacy Policy</a
+            >
+            |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Terms of Service</a
+            ></small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- UI DIALOG -->
+    <div id="uiDialog" class="ui-dialog hidden">
+      <div class="ui-dialog-box">
+        <div id="uiDialogIcon" class="ui-dialog-icon"></div>
+        <h3 id="uiDialogTitle"></h3>
+        <p id="uiDialogMessage"></p>
+        <div id="uiDialogActions">
+          <button class="btn btn-primary" id="uiDialogPrimaryBtn"></button>
+          <button
+            class="btn btn-outline"
+            id="uiDialogSecondaryBtn"
+            style="display: none"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL LOADER OVERLAY -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/Main.js"></script>
+  </body>
+</html>

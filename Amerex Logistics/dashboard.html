@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Dashboard - Amerex Logistics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Manage your shipments, track packages, and update your profile on your Amerex dashboard."
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+      type="image/png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/mobile-fixes.css" />
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth-guard.js"></script>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a class="nav-brand" href="index.html">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="ship-now-btn" onclick="location.href = 'quote.html'">
+            Request A Quote
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="menu">
+            <span class="bar"></span><span class="bar"></span
+            ><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- NOTIFICATIONS BELL -->
+    <div class="notifications-bell" id="notificationsBell">
+      <button class="bell-button" onclick="toggleNotifications()">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notification-count" id="notificationCount">0</span>
+      </button>
+
+      <div class="notifications-dropdown" id="notificationsDropdown">
+        <div class="notifications-header">
+          <h4>Notifications</h4>
+          <button class="mark-all-read" onclick="markAllAsRead()">
+            <i class="fa-solid fa-check-double"></i> Mark all as read
+          </button>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+          <!-- Populated by JavaScript -->
+        </div>
+        <div class="notifications-footer">
+          <a href="#" onclick="loadNotifications()">View all notifications</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <main class="page-content">
+      <div class="container">
+        <div class="dashboard-container">
+          <!-- SIDEBAR -->
+          <aside class="dashboard-sidebar" id="dashboardSidebar">
+            <div class="user-info">
+              <div class="user-avatar" id="userAvatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div class="user-name" id="userName">Loading...</div>
+              <div class="user-email" id="userEmail">Loading...</div>
+            </div>
+
+            <ul class="sidebar-nav">
+              <li>
+                <a href="#" class="active" data-section="overview">
+                  <i class="fa-solid fa-chart-line"></i>
+                  <span>Overview</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="shipments">
+                  <i class="fa-solid fa-box"></i>
+                  <span>My Shipments</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="tracking">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>Track Package</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="profile">
+                  <i class="fa-solid fa-user"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="addresses">
+                  <i class="fa-solid fa-map-marker-alt"></i>
+                  <span>Addresses</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="billing">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>Billing</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" data-section="support">
+                  <i class="fa-solid fa-headset"></i>
+                  <span>Support</span>
+                </a>
+              </li>
+              <li class="sidebar-divider"></li>
+              <li>
+                <!-- ✅ ADDED LOGOUT BUTTON FOR MOBILE -->
+                <a
+                  href="#"
+                  class="nav-item logout-mobile"
+                  id="logoutBtnMobile"
+                  onclick="
+                    logout();
+                    return false;
+                  "
+                >
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                  <span>Logout</span>
+                </a>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- MOBILE BOTTOM NAV -->
+          <nav class="mobile-bottom-nav">
+            <a href="#" data-section="overview" class="nav-item active">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Overview</span>
+            </a>
+            <a href="#" data-section="shipments" class="nav-item">
+              <i class="fa-solid fa-box"></i>
+              <span>Shipments</span>
+            </a>
+            <a href="#" data-section="tracking" class="nav-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Track</span>
+            </a>
+            <a href="#" data-section="profile" class="nav-item">
+              <i class="fa-solid fa-user"></i>
+              <span>Profile</span>
+            </a>
+            <a href="#" data-section="support" class="nav-item">
+              <i class="fa-solid fa-headset"></i>
+              <span>Support</span>
+            </a>
+          </nav>
+
+          <!-- MAIN CONTENT -->
+          <div class="dashboard-main">
+            <!-- OVERVIEW SECTION -->
+            <section id="overview" class="dashboard-section">
+              <div class="dashboard-header">
+                <div>
+                  <h1 id="welcomeMessage">Welcome back! 👋</h1>
+                  <p>Here's what's happening with your shipments today.</p>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  onclick="location.href = 'quote.html'"
+                >
+                  <i class="fa-solid fa-plus"></i> New Shipment
+                </button>
+              </div>
+
+              <!-- Stats Grid -->
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <div
+                    class="stat-icon"
+                    style="
+                      background: linear-gradient(135deg, #00a6a6, #007d7d);
+                    "
+                  >
+                    <i class="fa-solid fa-box"></i>
+                  </div>
+                  <div class="stat-content">
+                    <div class="stat-value" id="totalShipments">0</div>
+                    <div class="stat-label">Total Shipments</div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div
+                    class="stat-icon"
+                    style="
+                      background: linear-gradient(135deg, #ffc107, #ff9800);
+                    "
+                  >
+                    <i class="fa-solid fa-truck"></i>
+                  </div>
+                  <div class="stat-content">
+                    <div class="stat-value" id="inTransitShipments">0</div>
+                    <div class="stat-label">In Transit</div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div
+                    class="stat-icon"
+                    style="
+                      background: linear-gradient(135deg, #28a745, #20c997);
+                    "
+                  >
+                    <i class="fa-solid fa-check-circle"></i>
+                  </div>
+                  <div class="stat-content">
+                    <div class="stat-value" id="deliveredShipments">0</div>
+                    <div class="stat-label">Delivered</div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div
+                    class="stat-icon"
+                    style="
+                      background: linear-gradient(135deg, #6c757d, #495057);
+                    "
+                  >
+                    <i class="fa-solid fa-clock"></i>
+                  </div>
+                  <div class="stat-content">
+                    <div class="stat-value" id="pendingShipments">0</div>
+                    <div class="stat-label">Pending</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Analytics Chart (if you want charts) -->
+              <div class="analytics-section" style="display: none">
+                <h3>Shipment Activity</h3>
+                <div class="chart-container">
+                  <canvas id="shipmentsChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Recent Shipments -->
+              <div class="section-header">
+                <h2>Recent Shipments</h2>
+                <button class="btn btn-outline" onclick="exportShipments()">
+                  <i class="fa-solid fa-download"></i> Export CSV
+                </button>
+              </div>
+
+              <div class="table-container">
+                <table class="shipments-table" id="recentShipmentsTable">
+                  <thead>
+                    <tr>
+                      <th>Tracking Number</th>
+                      <th>From → To</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentShipmentsBody">
+                    <tr>
+                      <td colspan="5" class="loading-row">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                        shipments...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- SHIPMENTS SECTION -->
+            <section
+              id="shipments"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <div>
+                  <h1>My Shipments</h1>
+                  <p>View and manage all your shipments</p>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  onclick="location.href = 'quote.html'"
+                >
+                  <i class="fa-solid fa-plus"></i> New Shipment
+                </button>
+              </div>
+
+              <!-- Filters -->
+              <div class="shipments-filters">
+                <div class="filter-group">
+                  <input
+                    type="text"
+                    id="searchShipments"
+                    class="search-input"
+                    placeholder="Search by tracking number..."
+                  />
+                </div>
+                <div class="filter-group">
+                  <select id="filterStatus" class="filter-select">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_transit">In Transit</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <select id="sortShipments" class="filter-select">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="status">By Status</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table class="shipments-table">
+                  <thead>
+                    <tr>
+                      <th>Tracking</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th>Service</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Cost</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="allShipmentsBody">
+                    <tr>
+                      <td colspan="8" class="loading-row">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination -->
+              <div class="pagination" id="shipmentsPagination"></div>
+            </section>
+
+            <!-- TRACKING SECTION -->
+            <section
+              id="tracking"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <h1>Track Package</h1>
+                <p>Enter tracking number to see real-time updates</p>
+              </div>
+
+              <div class="tracking-search">
+                <input
+                  type="text"
+                  id="trackingInput"
+                  class="tracking-input"
+                  placeholder="Enter tracking number (e.g., AMRX-1234-5678-9012)"
+                />
+                <button class="btn btn-primary" onclick="trackShipment()">
+                  <i class="fa-solid fa-search"></i> Track
+                </button>
+              </div>
+
+              <div id="trackingResult"></div>
+            </section>
+
+            <!-- PROFILE SECTION -->
+            <!-- PROFILE SECTION -->
+            <section
+              id="profile"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <h1>My Profile</h1>
+                <p>Manage your personal information</p>
+              </div>
+
+              <!-- Avatar Upload Section -->
+              <div class="avatar-upload-section">
+                <div class="avatar-preview-container">
+                  <div class="avatar-preview" id="avatarPreview">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="avatar-upload-controls">
+                    <input
+                      type="file"
+                      id="avatarInput"
+                      accept="image/*"
+                      style="display: none"
+                      onchange="handleAvatarSelect(event)"
+                    />
+                    <button
+                      class="btn btn-primary"
+                      onclick="document.getElementById('avatarInput').click()"
+                    >
+                      <i class="fa-solid fa-camera"></i> Change Avatar
+                    </button>
+                    <button
+                      class="btn btn-outline"
+                      id="removeAvatarBtn"
+                      onclick="removeAvatar()"
+                      style="display: none"
+                    >
+                      <i class="fa-solid fa-trash"></i> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Profile Form -->
+              <form id="profileForm" class="profile-form">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="profileFullName">Full Name</label>
+                    <input
+                      type="text"
+                      id="profileFullName"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="profilePhone">Phone</label>
+                    <input
+                      type="tel"
+                      id="profilePhone"
+                      placeholder="+1 (555) 123-4567"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="profileEmail">Email</label>
+                  <input type="email" id="profileEmail" disabled />
+                  <small>Email cannot be changed</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="profileCompany">Company (Optional)</label>
+                  <input
+                    type="text"
+                    id="profileCompany"
+                    placeholder="Your company name"
+                  />
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-save"></i> Save Changes
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <!-- ADDRESSES SECTION -->
+            <section
+              id="addresses"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <div>
+                  <h1>Saved Addresses</h1>
+                  <p>Manage your shipping addresses</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddressModal()">
+                  <i class="fa-solid fa-plus"></i> Add Address
+                </button>
+              </div>
+
+              <div class="addresses-grid" id="addressesGrid">
+                <div class="loading-state">
+                  <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                  addresses...
+                </div>
+              </div>
+            </section>
+
+            <!-- BILLING SECTION -->
+            <section
+              id="billing"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <h1>Billing & Payments</h1>
+                <p>View payment history and download invoices</p>
+              </div>
+
+              <div class="table-container">
+                <table class="shipments-table">
+                  <thead>
+                    <tr>
+                      <th>Invoice #</th>
+                      <th>Shipment</th>
+                      <th>Amount</th>
+                      <th>Method</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="paymentsBody">
+                    <tr>
+                      <td colspan="7" class="loading-row">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                        payments...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- SUPPORT SECTION -->
+            <section
+              id="support"
+              class="dashboard-section"
+              style="display: none"
+            >
+              <div class="dashboard-header">
+                <div>
+                  <h1>Customer Support</h1>
+                  <p>Get help with your shipments</p>
+                </div>
+                <button class="btn btn-primary" onclick="openTicketModal()">
+                  <i class="fa-solid fa-plus"></i> New Ticket
+                </button>
+              </div>
+
+              <!-- Support Stats -->
+              <div class="support-quick-actions">
+                <div class="support-card">
+                  <i class="fa-solid fa-headset"></i>
+                  <h3>24/7 Support</h3>
+                  <p>Call us anytime</p>
+                  <a href="tel:+2348002637391" class="btn btn-outline">
+                    <i class="fa-solid fa-phone"></i> +234 800 263 7391
+                  </a>
+                </div>
+
+                <div class="support-card">
+                  <i class="fa-solid fa-envelope"></i>
+                  <h3>Email Support</h3>
+                  <p>Response within 24hrs</p>
+                  <a href="mailto:support@amerex.com" class="btn btn-outline">
+                    <i class="fa-solid fa-paper-plane"></i> Email Us
+                  </a>
+                </div>
+              </div>
+
+              <!-- Support Tickets -->
+              <h3>My Support Tickets</h3>
+              <div class="table-container">
+                <table class="shipments-table">
+                  <thead>
+                    <tr>
+                      <th>Ticket #</th>
+                      <th>Subject</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ticketsBody">
+                    <tr>
+                      <td colspan="6" class="loading-row">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading
+                        tickets...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- MODALS -->
+    <!-- Address Modal -->
+    <div class="modal" id="addressModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="addressModalTitle">Add New Address</h3>
+          <button class="modal-close" onclick="closeAddressModal()">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <form id="addressForm">
+          <input type="hidden" id="addressId" />
+
+          <div class="form-group">
+            <label for="addressLabel"
+              >Label <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="addressLabel"
+              placeholder="Home, Office, Warehouse"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addressStreet"
+              >Street Address <span class="required">*</span></label
+            >
+            <input type="text" id="addressStreet" required />
+          </div>
+
+          <div class="form-group">
+            <label for="addressApt">Apt/Suite/Unit</label>
+            <input type="text" id="addressApt" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addressCity"
+                >City <span class="required">*</span></label
+              >
+              <input type="text" id="addressCity" required />
+            </div>
+            <div class="form-group">
+              <label for="addressState"
+                >State <span class="required">*</span></label
+              >
+              <input type="text" id="addressState" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addressZip"
+                >ZIP Code <span class="required">*</span></label
+              >
+              <input type="text" id="addressZip" required />
+            </div>
+            <div class="form-group">
+              <label for="addressCountry"
+                >Country <span class="required">*</span></label
+              >
+              <select id="addressCountry" required>
+                <option value="">Select Country</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="addressDefault" />
+              Set as default address
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeAddressModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-save"></i> Save Address
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Support Ticket Modal -->
+    <div class="modal" id="ticketModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Create Support Ticket</h3>
+          <button class="modal-close" onclick="closeTicketModal()">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <form id="ticketForm">
+          <div class="form-group">
+            <label for="ticketSubject"
+              >Subject <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="ticketSubject"
+              required
+              placeholder="Brief description of your issue"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ticketMessage"
+              >Message <span class="required">*</span></label
+            >
+            <textarea
+              id="ticketMessage"
+              required
+              rows="6"
+              placeholder="Describe your issue in detail..."
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ticketPriority">Priority</label>
+              <select id="ticketPriority">
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ticketShipment">Related Shipment (Optional)</label>
+              <select id="ticketShipment">
+                <option value="">No specific shipment</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeTicketModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-paper-plane"></i> Submit Ticket
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- GLOBAL UI DIALOG -->
+    <div id="uiDialog" class="ui-dialog hidden">
+      <div class="ui-dialog-box">
+        <div id="uiDialogIcon" class="ui-dialog-icon"></div>
+        <h3 id="uiDialogTitle"></h3>
+        <p id="uiDialogMessage"></p>
+        <div id="uiDialogActions"></div>
+      </div>
+    </div>
+
+    <!-- GLOBAL LOADER -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/Main.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

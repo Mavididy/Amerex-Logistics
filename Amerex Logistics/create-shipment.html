@@ -1,0 +1,1489 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Create A Quote | Amerex - Global Logistics & Cargo Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Request a shipping quote from Amerex Logistics. Get instant pricing for freight, express delivery, and global logistics solutions across 25+ countries."
+    />
+    <meta
+      name="keywords"
+      content="logistics quote, shipping rates, freight quote, express delivery cost, international shipping estimate, Amerex"
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/mobile-fixes.css" />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="css/create-shipment.css" />
+
+    <!-- Add Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+  </head>
+
+  <body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a class="nav-brand" href="index.html">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link active">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="ship-now-btn" onclick="location.href = 'quote.html'">
+            Request A Quote
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="menu">
+            <span class="bar"></span><span class="bar"></span
+            ><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- QUOTE HERO -->
+    <header class="hero page-header-quote">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <span class="hero-badge">
+            <i class="fa-solid fa-calculator"></i> Get Your Quote
+          </span>
+          <h1>Request A Shipping Quote</h1>
+          <p class="lead">
+            Get an accurate, competitive quote for your freight, express
+            delivery, and global logistics needs in minutes.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- QUOTE FORM SECTION -->
+    <section class="container" style="padding: 50px 20px">
+      <div class="layout-grid">
+        <div class="main-content">
+          <form id="quoteForm">
+            <div class="quote-form">
+              <div class="quote-progress">
+                <div class="step active">
+                  <div class="step-number">1</div>
+                  <div class="step-label">Sender</div>
+                </div>
+                <div class="step">
+                  <div class="step-number">2</div>
+                  <div class="step-label">Recipient</div>
+                </div>
+                <div class="step">
+                  <div class="step-number">3</div>
+                  <div class="step-label">Package</div>
+                </div>
+                <div class="step">
+                  <div class="step-number">4</div>
+                  <div class="step-label">Proof</div>
+                </div>
+                <div class="step">
+                  <div class="step-number">5</div>
+                  <div class="step-label">Service</div>
+                </div>
+                <div class="step">
+                  <div class="step-number">6</div>
+                  <div class="step-label">Payment</div>
+                </div>
+              </div>
+
+              <!-- SENDER INFORMATION -->
+              <div class="quote-section" id="senderSection">
+                <h3>
+                  <i class="fa-solid fa-paper-plane"></i> Sender Information
+                </h3>
+
+                <div class="form-group">
+                  <label for="senderName"
+                    >Full Name / Company Name
+                    <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="senderName"
+                    name="senderName"
+                    placeholder="Enter your full name or company"
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="senderEmail"
+                      >Email <span class="required">*</span></label
+                    >
+                    <input
+                      type="email"
+                      id="senderEmail"
+                      name="senderEmail"
+                      placeholder="email@example.com"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="senderPhone"
+                      >Phone <span class="required">*</span></label
+                    >
+                    <input
+                      type="tel"
+                      id="senderPhone"
+                      name="senderPhone"
+                      placeholder="+1 (123) 456-7890"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="senderAddress"
+                    >Street Address <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="senderAddress"
+                    name="senderAddress"
+                    placeholder="123 Main St"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="senderAptSuite"
+                    >Apartment/Suite/Unit (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="senderAptSuite"
+                    name="senderAptSuite"
+                    placeholder="Apt #, Suite #, Unit #"
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="senderCity"
+                      >City <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="senderCity"
+                      name="senderCity"
+                      placeholder="City"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="senderState"
+                      >State/Province <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="senderState"
+                      name="senderState"
+                      placeholder="State/Province"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="senderZip"
+                      >ZIP/Postal Code <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="senderZip"
+                      name="senderZip"
+                      placeholder="ZIP/Postal Code"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="senderCountry"
+                      >Country <span class="required">*</span></label
+                    >
+                    <select id="senderCountry" name="senderCountry">
+                      <option value="" selected disabled>Select Country</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="United States">United States</option>
+                      <option value="Canada">Canada</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="South Africa">South Africa</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Australia">Australia</option>
+                      <option value="Germany">Germany</option>
+                      <option value="France">France</option>
+                      <option value="China">China</option>
+                      <option value="Japan">Japan</option>
+                      <option value="India">India</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="pickupInstructions"
+                    >Pickup Instructions (Optional)</label
+                  >
+                  <textarea
+                    id="pickupInstructions"
+                    name="pickupInstructions"
+                    placeholder="Special instructions for pickup (e.g., Leave at the loading dock)"
+                  ></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="window.history.back()"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextToRecipient"
+                  >
+                    Next: Recipient Info <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- RECIPIENT INFORMATION -->
+              <div
+                class="quote-section"
+                id="recipientSection"
+                style="display: none"
+              >
+                <h3>
+                  <i class="fa-solid fa-location-dot"></i> Recipient Information
+                </h3>
+
+                <div class="toggle-international">
+                  <label class="switch">
+                    <input type="checkbox" id="internationalShipping" />
+                    <span class="slider"></span>
+                  </label>
+                  <div>
+                    <strong>International Shipping</strong>
+                    <p
+                      style="margin: 0; font-size: 0.85rem; color: var(--muted)"
+                    >
+                      Toggle on for shipments outside sender's country
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="recipientName"
+                    >Recipient Name / Company Name
+                    <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="recipientName"
+                    name="recipientName"
+                    placeholder="Enter recipient's full name or company"
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="recipientEmail"
+                      >Email <span class="required">*</span></label
+                    >
+                    <input
+                      type="email"
+                      id="recipientEmail"
+                      name="recipientEmail"
+                      placeholder="recipient@example.com"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="recipientPhone"
+                      >Phone <span class="required">*</span></label
+                    >
+                    <input
+                      type="tel"
+                      id="recipientPhone"
+                      name="recipientPhone"
+                      placeholder="+1 (123) 456-7890"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="recipientAddress"
+                    >Street Address <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="recipientAddress"
+                    name="recipientAddress"
+                    placeholder="123 Main St"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="recipientAptSuite"
+                    >Apartment/Suite/Unit (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="recipientAptSuite"
+                    name="recipientAptSuite"
+                    placeholder="Apt #, Suite #, Unit #"
+                  />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="recipientCity"
+                      >City <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="recipientCity"
+                      name="recipientCity"
+                      placeholder="City"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="recipientState"
+                      >State/Province <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="recipientState"
+                      name="recipientState"
+                      placeholder="State/Province"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="recipientZip"
+                      >ZIP/Postal Code <span class="required">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="recipientZip"
+                      name="recipientZip"
+                      placeholder="ZIP/Postal Code"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="recipientCountry"
+                      >Country <span class="required">*</span></label
+                    >
+                    <select id="recipientCountry" name="recipientCountry">
+                      <option value="" selected disabled>Select Country</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="United States">United States</option>
+                      <option value="Canada">Canada</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="South Africa">South Africa</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Australia">Australia</option>
+                      <option value="Germany">Germany</option>
+                      <option value="France">France</option>
+                      <option value="China">China</option>
+                      <option value="Japan">Japan</option>
+                      <option value="India">India</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="deliveryInstructions"
+                    >Delivery Instructions (Optional)</label
+                  >
+                  <textarea
+                    id="deliveryInstructions"
+                    name="deliveryInstructions"
+                    placeholder="Special instructions for delivery (e.g., Signature required, leave at front door)"
+                  ></textarea>
+                </div>
+
+                <div
+                  id="customsInfo"
+                  style="
+                    display: none;
+                    margin-top: 20px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e5e7eb;
+                  "
+                >
+                  <h4 style="margin-bottom: 15px; color: var(--teal-2)">
+                    International Customs Information
+                  </h4>
+
+                  <div class="form-group">
+                    <label for="taxId">VAT/Tax ID (for businesses)</label>
+                    <input
+                      type="text"
+                      id="taxId"
+                      name="taxId"
+                      placeholder="VAT/EIN/Tax ID number"
+                    />
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="hsCode">HS Code (Optional)</label>
+                      <input
+                        type="text"
+                        id="hsCode"
+                        name="hsCode"
+                        placeholder="e.g., 8471.30"
+                      />
+                      <small
+                        >Harmonized System code for product
+                        classification</small
+                      >
+                    </div>
+                    <div class="form-group">
+                      <label for="contentType">Content Type</label>
+                      <select id="contentType" name="contentType">
+                        <option value="merchandise" selected>
+                          Merchandise
+                        </option>
+                        <option value="documents">Documents</option>
+                        <option value="gift">Gift</option>
+                        <option value="sample">Sample</option>
+                        <option value="return">Return</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="backToSender"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextToPackage"
+                  >
+                    Next: Package Details
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- PACKAGE DETAILS -->
+              <div
+                class="quote-section"
+                id="packageSection"
+                style="display: none"
+              >
+                <h3><i class="fa-solid fa-box"></i> Package Details</h3>
+
+                <div class="form-group">
+                  <label>Package Type <span class="required">*</span></label>
+                  <div class="package-options">
+                    <div class="package-option" data-value="envelope">
+                      <div class="package-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                      </div>
+                      <div class="package-name">Envelope</div>
+                    </div>
+                    <div class="package-option" data-value="small_box">
+                      <div class="package-icon">
+                        <i class="fa-solid fa-box"></i>
+                      </div>
+                      <div class="package-name">Small Box</div>
+                    </div>
+                    <div class="package-option" data-value="large_box">
+                      <div class="package-icon">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                      </div>
+                      <div class="package-name">Large Box</div>
+                    </div>
+                    <div class="package-option" data-value="pallet">
+                      <div class="package-icon">
+                        <i class="fa-solid fa-pallet"></i>
+                      </div>
+                      <div class="package-name">Pallet</div>
+                    </div>
+                  </div>
+                  <input type="hidden" id="packageType" name="packageType" />
+                </div>
+
+                <div id="dimensionsSection">
+                  <label>Dimensions <span class="required">*</span></label>
+                  <div class="dimensions-row">
+                    <div class="dimension-group">
+                      <label for="length">Length (cm)</label>
+                      <input
+                        type="number"
+                        id="length"
+                        name="length"
+                        min="1"
+                        step="0.1"
+                        placeholder="Length"
+                      />
+                    </div>
+                    <div class="dimension-group">
+                      <label for="width">Width (cm)</label>
+                      <input
+                        type="number"
+                        id="width"
+                        name="width"
+                        min="1"
+                        step="0.1"
+                        placeholder="Width"
+                      />
+                    </div>
+                    <div class="dimension-group">
+                      <label for="height">Height (cm)</label>
+                      <input
+                        type="number"
+                        id="height"
+                        name="height"
+                        min="1"
+                        step="0.1"
+                        placeholder="Height"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row" style="margin-top: 20px">
+                  <div class="form-group">
+                    <label for="weight"
+                      >Weight (kg) <span class="required">*</span></label
+                    >
+                    <input
+                      type="number"
+                      id="weight"
+                      name="weight"
+                      min="0.1"
+                      step="0.1"
+                      placeholder="Package weight"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="quantity"
+                      >Quantity <span class="required">*</span></label
+                    >
+                    <input
+                      type="number"
+                      id="quantity"
+                      name="quantity"
+                      min="1"
+                      value="1"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="itemDescription"
+                    >Item Description <span class="required">*</span></label
+                  >
+                  <textarea
+                    id="itemDescription"
+                    name="itemDescription"
+                    placeholder="Brief description of package contents (e.g., Electronic parts, clothing)"
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="declaredValue"
+                    >Declared Value (USD) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    id="declaredValue"
+                    name="declaredValue"
+                    min="1"
+                    step="0.01"
+                    placeholder="Value in USD"
+                  />
+                  <small>For insurance and customs purposes</small>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="backToRecipient"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextToVideo"
+                  >
+                    Next: Upload Proof <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- VIDEO UPLOAD SECTION -->
+              <div
+                class="quote-section"
+                id="videoSection"
+                style="display: none"
+              >
+                <h3>
+                  <i class="fa-solid fa-video"></i> Upload Proof (Optional)
+                </h3>
+                <p style="color: var(--muted); margin-bottom: 20px">
+                  Upload a video of your package for verification and security
+                  purposes.
+                </p>
+
+                <div class="video-upload-section">
+                  <div class="video-upload-icon">
+                    <i class="fa-solid fa-video"></i>
+                  </div>
+                  <h4 style="margin-bottom: 12px">Upload Package Video</h4>
+                  <p
+                    style="
+                      color: #6b7280;
+                      margin-bottom: 20px;
+                      font-size: 0.95rem;
+                    "
+                  >
+                    Record a short video showing your package contents for
+                    security and verification purposes.
+                  </p>
+
+                  <input
+                    type="file"
+                    id="videoInput"
+                    class="video-upload-input"
+                    accept="video/mp4,video/quicktime,video/x-msvideo"
+                    onchange="handleVideoSelect(event)"
+                  />
+
+                  <button
+                    type="button"
+                    class="video-upload-btn"
+                    onclick="document.getElementById('videoInput').click()"
+                  >
+                    <i class="fa-solid fa-cloud-upload-alt"></i>
+                    Choose Video File
+                  </button>
+
+                  <p
+                    style="font-size: 0.85rem; color: #9ca3af; margin-top: 14px"
+                  >
+                    Supported formats: MP4, MOV, AVI • Max size: 50MB
+                  </p>
+
+                  <!-- Upload Progress -->
+                  <div
+                    class="upload-progress"
+                    id="uploadProgress"
+                    style="display: none"
+                  >
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill"
+                        id="progressFill"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                    <p class="progress-text" id="progressText">
+                      Uploading... 0%
+                    </p>
+                  </div>
+
+                  <!-- Video Preview -->
+                  <div
+                    class="video-preview"
+                    id="videoPreview"
+                    style="display: none"
+                  >
+                    <video id="previewVideo" controls></video>
+                    <div class="video-info">
+                      <div class="video-details">
+                        <i class="fa-solid fa-file-video"></i>
+                        <div>
+                          <div class="video-name" id="videoName"></div>
+                          <div class="video-size" id="videoSize"></div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        class="video-remove"
+                        onclick="removeVideo()"
+                      >
+                        <i class="fa-solid fa-trash"></i> Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 25px">
+                  <label for="videoNotes">Video Notes (Optional)</label>
+                  <textarea
+                    id="videoNotes"
+                    name="videoNotes"
+                    placeholder="Add any additional notes about the video..."
+                    style="min-height: 90px"
+                  ></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="backToPackage"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextToService"
+                  >
+                    Next: Shipping Service
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- SERVICE & TIMING -->
+              <div
+                class="quote-section"
+                id="serviceSection"
+                style="display: none"
+              >
+                <h3>
+                  <i class="fa-solid fa-truck-fast"></i> Shipping Service &
+                  Timing
+                </h3>
+
+                <div class="form-group">
+                  <label
+                    >Select Service Level <span class="required">*</span></label
+                  >
+                  <div class="service-options">
+                    <div
+                      class="service-option"
+                      data-value="express"
+                      data-price="149.99"
+                      data-days="2"
+                    >
+                      <div class="service-header">
+                        <span class="service-name">Express</span>
+                        <span class="service-price">$149.99</span>
+                      </div>
+                      <div class="service-delivery">1-2 Business Days</div>
+                      <ul class="service-features">
+                        <li>Priority handling</li>
+                        <li>Full tracking & insurance</li>
+                        <li>Delivery confirmation</li>
+                      </ul>
+                    </div>
+
+                    <div
+                      class="service-option"
+                      data-value="standard"
+                      data-price="89.99"
+                      data-days="5"
+                    >
+                      <div class="service-header">
+                        <span class="service-name">Standard</span>
+                        <span class="service-price">$89.99</span>
+                      </div>
+                      <div class="service-delivery">3-5 Business Days</div>
+                      <ul class="service-features">
+                        <li>Regular processing</li>
+                        <li>Full tracking</li>
+                        <li>Basic insurance included</li>
+                      </ul>
+                    </div>
+
+                    <div
+                      class="service-option"
+                      data-value="economy"
+                      data-price="49.99"
+                      data-days="8"
+                    >
+                      <div class="service-header">
+                        <span class="service-name">Economy</span>
+                        <span class="service-price">$49.99</span>
+                      </div>
+                      <div class="service-delivery">5-8 Business Days</div>
+                      <ul class="service-features">
+                        <li>Standard processing</li>
+                        <li>Basic tracking</li>
+                        <li>Insurance available</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <input type="hidden" id="serviceLevel" name="serviceLevel" />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="pickupDate"
+                      >Pickup Date <span class="required">*</span></label
+                    >
+                    <input type="date" id="pickupDate" name="pickupDate" />
+                  </div>
+                  <div class="form-group">
+                    <label for="pickupTime"
+                      >Pickup Time <span class="required">*</span></label
+                    >
+                    <select id="pickupTime" name="pickupTime">
+                      <option value="" selected disabled>Select Time</option>
+                      <option value="morning">
+                        Morning (8:00 AM - 12:00 PM)
+                      </option>
+                      <option value="afternoon">
+                        Afternoon (12:00 PM - 4:00 PM)
+                      </option>
+                      <option value="evening">
+                        Evening (4:00 PM - 8:00 PM)
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="estimated-delivery">
+                    <p
+                      style="
+                        color: var(--teal-2);
+                        font-weight: 600;
+                        font-size: 1rem;
+                        margin-top: 20px;
+                      "
+                    >
+                      <i class="fa-solid fa-calendar-check"></i> Estimated
+                      Delivery:
+                      <span id="estimatedDeliveryDate"
+                        >Select a service to see delivery estimate</span
+                      >
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="backToVideo"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextToPayment"
+                  >
+                    Next: Billing & Payment
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- BILLING & PAYMENT -->
+              <div
+                class="quote-section"
+                id="paymentSection"
+                style="display: none"
+              >
+                <h3>
+                  <i class="fa-solid fa-credit-card"></i> Billing & Payment
+                </h3>
+
+                <!-- COUPON SECTION (Keep existing coupon code) -->
+                <div class="coupon-section">
+                  <!-- Your existing coupon HTML stays the same -->
+                </div>
+
+                <!-- PAYMENT METHOD SELECTION -->
+                <!-- PAYMENT METHOD SELECTION -->
+                <div class="form-group">
+                  <label>Payment Method <span class="required">*</span></label>
+                  <div class="payment-methods">
+                    <!-- Cryptocurrency (RECOMMENDED) -->
+                    <div
+                      class="payment-method active"
+                      data-value="cryptocurrency"
+                      id="cryptoMethod"
+                    >
+                      <div class="recommended-tag">Recommended</div>
+                      <div class="payment-icon">
+                        <i class="fa-brands fa-bitcoin"></i>
+                      </div>
+                      <div class="payment-label">Cryptocurrency</div>
+                    </div>
+
+                    <!-- Stripe Card Payment -->
+                    <div
+                      class="payment-method"
+                      data-value="stripe"
+                      id="stripeMethod"
+                    >
+                      <div class="payment-icon">
+                        <i class="fa-solid fa-credit-card"></i>
+                      </div>
+                      <div class="payment-label">Credit/Debit Card</div>
+                    </div>
+
+                    <!-- Bank Transfer -->
+                    <div class="payment-method" data-value="bank_transfer">
+                      <div class="payment-icon">
+                        <i class="fa-solid fa-building-columns"></i>
+                      </div>
+                      <div class="payment-label">Bank Transfer</div>
+                    </div>
+                  </div>
+                  <input
+                    type="hidden"
+                    id="paymentMethod"
+                    name="paymentMethod"
+                    value="cryptocurrency"
+                  />
+                </div>
+
+                <!-- CRYPTOCURRENCY PAYMENT DETAILS -->
+                <div class="crypto-details" id="cryptoDetails">
+                  <div class="crypto-header">
+                    <i class="fa-solid fa-coins"></i>
+                    <h4>Pay with Cryptocurrency</h4>
+                  </div>
+                  <p style="color: #6b7280; margin-bottom: 20px">
+                    Send the exact amount to one of the addresses below, then
+                    upload your payment proof.
+                  </p>
+
+                  <!-- Bitcoin -->
+                  <div class="crypto-option">
+                    <div class="crypto-option-header">
+                      <i
+                        class="fa-brands fa-bitcoin"
+                        style="color: #f7931a; font-size: 1.5rem"
+                      ></i>
+                      <h4>Bitcoin (BTC)</h4>
+                      <span class="network-tag">BTC Network</span>
+                    </div>
+                    <div class="crypto-address-row">
+                      <input
+                        type="text"
+                        class="crypto-address"
+                        id="btcAddress"
+                        value="Bc1q38m5d4nqs6seugfjv8y87m99mxthlnt6ydd8lu"
+                        readonly
+                      />
+                      <button
+                        type="button"
+                        class="copy-address-btn"
+                        onclick="copyAddress('btcAddress', this)"
+                      >
+                        <i class="fa-regular fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- USDT TRC20 -->
+                  <div class="crypto-option">
+                    <div class="crypto-option-header">
+                      <i
+                        class="fa-solid fa-dollar-sign"
+                        style="color: #26a17b; font-size: 1.5rem"
+                      ></i>
+                      <h4>USDT (TRC20)</h4>
+                      <span class="network-tag">Tron Network</span>
+                    </div>
+                    <div class="crypto-address-row">
+                      <input
+                        type="text"
+                        class="crypto-address"
+                        id="usdtAddress"
+                        value="0x0fe4a1a6e8eb6b13ba4212300c83cb7e7ffe2ca7"
+                        readonly
+                      />
+                      <button
+                        type="button"
+                        class="copy-address-btn"
+                        onclick="copyAddress('usdtAddress', this)"
+                      >
+                        <i class="fa-regular fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Payment Amount -->
+                  <div class="crypto-amount-box">
+                    <span>Amount to Pay:</span>
+                    <strong id="cryptoPayAmount">$0.00</strong>
+                  </div>
+
+                  <!-- Upload Payment Proof -->
+                  <div class="crypto-proof">
+                    <label
+                      ><i class="fa-solid fa-upload"></i> Upload Payment Proof
+                      <span class="required">*</span></label
+                    >
+                    <p
+                      style="
+                        font-size: 0.85rem;
+                        color: #6b7280;
+                        margin-bottom: 12px;
+                      "
+                    >
+                      Upload a screenshot of your transaction confirmation
+                    </p>
+                    <div class="file-upload-container">
+                      <label class="file-upload-label" for="cryptoProofFile">
+                        <i class="fa-solid fa-cloud-upload-alt"></i>
+                        <span>Choose File (PNG, JPG, PDF)</span>
+                      </label>
+                      <input
+                        type="file"
+                        id="cryptoProofFile"
+                        class="file-upload-input"
+                        accept="image/*,.pdf"
+                      />
+                    </div>
+                    <div class="file-info" id="fileInfo"></div>
+                  </div>
+                </div>
+
+                <!-- STRIPE CARD PAYMENT FORM (Hidden by default now) -->
+                <div
+                  class="stripe-payment-form"
+                  id="stripePaymentForm"
+                  style="display: none"
+                >
+                  <!-- Your existing Stripe form -->
+                </div>
+
+                <!-- Copy Success Toast -->
+                <div class="copy-success" id="copySuccess">
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span>Address copied!</span>
+                </div>
+
+                <!-- STRIPE CARD PAYMENT FORM (NEW) -->
+                <div class="stripe-payment-form" id="stripePaymentForm">
+                  <div class="stripe-card-wrapper">
+                    <label for="stripe-card-element"
+                      >Card Details <span class="required">*</span></label
+                    >
+                    <div
+                      id="stripe-card-element"
+                      class="stripe-card-element"
+                    ></div>
+                    <div
+                      id="stripe-card-errors"
+                      class="stripe-card-errors"
+                    ></div>
+                  </div>
+
+                  <div class="stripe-secure-badge">
+                    <i class="fa-solid fa-lock"></i>
+                    <span
+                      >Secured by Stripe • Your payment information is
+                      encrypted</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Cryptocurrency Payment Details (Keep existing) -->
+                <div
+                  class="crypto-details"
+                  id="cryptoDetails"
+                  style="display: none"
+                >
+                  <!-- Your existing crypto payment HTML -->
+                </div>
+
+                <!-- Insurance Option (Keep existing) -->
+                <div class="form-group">
+                  <label class="checkbox-label" style="margin-top: 18px">
+                    <input
+                      type="checkbox"
+                      id="addInsurance"
+                      name="addInsurance"
+                    />
+                    Add Insurance Coverage (1.5% of declared value)
+                  </label>
+                  <small
+                    >Covers loss, damage or theft up to full declared
+                    value</small
+                  >
+                </div>
+
+                <!-- Cost Summary (Keep existing) -->
+                <div class="cost-summary">
+                  <!-- Your existing cost summary HTML -->
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="backToService"
+                  >
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="submitPaymentBtn"
+                  >
+                    <i class="fa-solid fa-lock"></i> Pay $<span
+                      id="payButtonAmount"
+                      >0.00</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- QUOTE SUMMARY -->
+        <div class="sidebar">
+          <div class="summary-card">
+            <h3 style="margin-bottom: 22px">📋 Quote Summary</h3>
+
+            <div class="summary-section">
+              <h4>Shipping Route</h4>
+              <div class="summary-list">
+                <div class="summary-item">
+                  <div class="summary-item-label">From:</div>
+                  <div class="summary-item-value" id="summaryOrigin">-</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-item-label">To:</div>
+                  <div class="summary-item-value" id="summaryDestination">
+                    -
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-section">
+              <h4>Package</h4>
+              <div class="summary-list">
+                <div class="summary-item">
+                  <div class="summary-item-label">Type:</div>
+                  <div class="summary-item-value" id="summaryPackageType">
+                    -
+                  </div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-item-label">Weight:</div>
+                  <div class="summary-item-value" id="summaryWeight">-</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-item-label">Dimensions:</div>
+                  <div class="summary-item-value" id="summaryDimensions">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-section">
+              <h4>Service</h4>
+              <div class="summary-list">
+                <div class="summary-item">
+                  <div class="summary-item-label">Level:</div>
+                  <div class="summary-item-value" id="summaryServiceLevel">
+                    -
+                  </div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-item-label">Pickup:</div>
+                  <div class="summary-item-value" id="summaryPickup">-</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-item-label">Delivery:</div>
+                  <div class="summary-item-value" id="summaryDelivery">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-total" id="summaryTotal">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE TIPS -->
+    <section class="container" style="padding: 0 20px 60px">
+      <div class="card" style="padding: 30px">
+        <h3 style="margin-bottom: 20px; color: var(--teal-2)">
+          <i class="fa-solid fa-lightbulb"></i> Shipping Tips
+        </h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+          "
+        >
+          <div>
+            <h4 style="color: var(--accent); margin-bottom: 10px">
+              Packaging Guidelines
+            </h4>
+            <ul class="tips-list">
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Use sturdy, double-walled boxes for heavy items
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Leave 2 inches of cushioning around items
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Secure internal items to prevent shifting
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Use H-tape method on all seams for added strength
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="color: var(--accent); margin-bottom: 10px">
+              Cost-Saving Tips
+            </h4>
+            <ul class="tips-list">
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Consolidate multiple items into one package
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Consider economy service for non-urgent shipments
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Schedule regular pickups for volume discounts
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Use our packaging materials for optimal rates
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="color: var(--accent); margin-bottom: 10px">
+              Customs Information
+            </h4>
+            <ul class="tips-list">
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Declare accurate value to avoid penalties
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Include detailed descriptions of all items
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Research restricted items for destination country
+              </li>
+              <li>
+                <i
+                  class="fa-solid fa-check"
+                  style="color: var(--accent); margin-right: 10px"
+                ></i>
+                Include all required documentation to avoid delays
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h4>Amerex</h4>
+            <p>
+              Delivering Beyond Borders. Trusted logistics, freight and cargo
+              solutions across the globe.
+            </p>
+            <div style="margin-top: 16px">
+              <p style="margin-bottom: 8px">
+                <i class="fa-solid fa-location-dot"></i> 350 Cargo Drive,
+                Industrial Zone, Lagos, Nigeria
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">Maritime Freight</a></li>
+              <li><a href="services.html">Land Freight</a></li>
+              <li><a href="services.html">Rail Freight</a></li>
+              <li><a href="quote.html">Get Quote</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="track.html">Track Shipment</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-phone"></i> +234 800 263 7391</p>
+            <p><i class="fa-solid fa-envelope"></i> support@amerex.com</p>
+            <p><i class="fa-solid fa-clock"></i> Mon-Sat: 8:00 AM - 8:00 PM</p>
+
+            <div class="footer-follow" style="margin-top: 16px">
+              <h4>Follow Us</h4>
+              <div class="socials">
+                <a href="#" aria-label="Facebook"
+                  ><i class="fa-brands fa-facebook-f"></i
+                ></a>
+                <a href="#" aria-label="Twitter"
+                  ><i class="fa-brands fa-twitter"></i
+                ></a>
+                <a href="#" aria-label="Instagram"
+                  ><i class="fa-brands fa-instagram"></i
+                ></a>
+                <a href="#" aria-label="LinkedIn"
+                  ><i class="fa-brands fa-linkedin-in"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <small
+            >&copy; 2025 Amerex Transportation Inc. All rights reserved. |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Privacy Policy</a
+            >
+            |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Terms of Service</a
+            ></small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- GLOBAL UI DIALOG -->
+    <div id="uiDialog" class="ui-dialog hidden">
+      <div class="ui-dialog-box">
+        <div id="uiDialogIcon" class="ui-dialog-icon"></div>
+        <h3 id="uiDialogTitle"></h3>
+        <p id="uiDialogMessage"></p>
+        <div id="uiDialogActions"></div>
+      </div>
+    </div>
+
+    <!-- GLOBAL LOADER OVERLAY -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+
+    <!-- ADD THESE SCRIPTS BEFORE CLOSING </body> TAG -->
+
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Stripe Config -->
+    <script src="js/stripe-config.js"></script>
+
+    <!-- Stripe Payment -->
+    <script src="js/stripe-payment.js"></script>
+
+    <!-- Existing scripts -->
+
+    <script src="js/auth-guard.js"></script>
+    <script src="js/create-shipment.js"></script>
+    <script src="js/Main.js"></script>
+  </body>
+</html>

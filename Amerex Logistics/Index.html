@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      Amerex | Global Logistics & Cargo Services - Fast, Reliable Shipping
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <meta
+      name="description"
+      content="Amerex delivers beyond borders with reliable freight, express delivery, and global logistics solutions. Track shipments, get quotes, and ship with confidence across 25+ countries."
+    />
+    <meta
+      name="keywords"
+      content="logistics, cargo shipping, freight services, express delivery, international shipping, package tracking, Amerex"
+    />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="CSS/style.css" />
+
+    <!-- Add Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a class="nav-brand" href="index.html">
+          <div class="brand-inner">
+            <span class="brand-mark">Amerex</span>
+          </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="track.html" class="nav-link">Track</a></li>
+          <li><a href="quote.html" class="nav-link">Quote</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="ship-now-btn" onclick="location.href = 'quote.html'">
+            Request A Quote
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="menu">
+            <span class="bar"></span><span class="bar"></span
+            ><span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <span class="hero-badge">
+            <i class="fa-solid fa-location-dot"></i> Amerex Transportation Inc
+          </span>
+          <h1>Welcome To Amerex Cargo & Logistics</h1>
+          <p class="lead">
+            Take your business to the next level with Amerex reliable freight,
+            express delivery, and global logistics solutions that move your
+            world.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="quote.html">
+              <i class="fa-solid fa-paper-plane"></i> Request Quote
+            </a>
+            <a class="btn btn-outline" href="track.html">
+              <i class="fa-solid fa-magnifying-glass"></i> Track Shipment
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-number">50k+</div>
+              <div class="stat-label">Successful Deliveries</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">256</div>
+              <div class="stat-label">Land Freight Ops</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">25+</div>
+              <div class="stat-label">Countries Served</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">125</div>
+              <div class="stat-label">Train Routes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PARTNER LOGOS -->
+    <section class="partners container">
+      <div class="section-head" style="text-align: center; margin-bottom: 20px">
+        <h3 style="font-size: 1.1rem; color: #6b7280; font-weight: 600">
+          Trusted By Leading Global Brands
+        </h3>
+      </div>
+      <div class="partners-inner">
+        <img src="uploads/partner1.png" alt="partner" class="partner" />
+        <img src="uploads/partner2.png" alt="partner" class="partner" />
+        <img src="uploads/partner3.png" alt="partner" class="partner" />
+        <img src="uploads/partner4.png" alt="partner" class="partner" />
+        <img src="uploads/partner5.png" alt="partner" class="partner" />
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE AMEREX -->
+    <section
+      class="why-amerex container"
+      style="padding: 60px 0; background: #f7fafb"
+    >
+      <div class="section-head" style="text-align: center; margin-bottom: 40px">
+        <span class="section-tag">WHY CHOOSE US</span>
+        <h2>Your Trusted Logistics Partner</h2>
+        <p>
+          We combine speed, security, and reliability to deliver exceptional
+          service across the globe.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <h4>24/7 Support</h4>
+          <p>
+            Round-the-clock customer service and real-time tracking for complete
+            peace of mind.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h4>Secure & Insured</h4>
+          <p>
+            Full insurance coverage and advanced security measures protect your
+            shipments every mile.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <h4>Global Network</h4>
+          <p>
+            Presence in 25+ countries with 120+ hubs ensuring seamless
+            international delivery.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h4>Fast Delivery</h4>
+          <p>
+            Express options available with guaranteed delivery times and
+            priority handling.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #ff7a3d; font-size: 2.5rem">
+            <i class="fa-solid fa-tag"></i>
+          </div>
+          <h4>Competitive Rates</h4>
+          <p>
+            Transparent pricing with no hidden fees. Get the best value for your
+            shipping needs.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="color: #00a6a6; font-size: 2.5rem">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h4>Expert Team</h4>
+          <p>
+            Experienced logistics professionals dedicated to handling your cargo
+            with care.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES PREVIEW -->
+    <section class="services-preview container">
+      <div class="section-head">
+        <span class="section-tag">OUR SERVICES</span>
+        <h2>Wide Variety of Logistics Services</h2>
+        <p>
+          Full-service logistics – maritime, land freight, train freight and
+          express solutions
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-media">
+            <img src="uploads/sea.jpg" alt="Maritime Freight" />
+          </div>
+          <div class="service-body">
+            <span class="service-pill">Maritime Freight</span>
+            <h3>Maritime Freight Transportation</h3>
+            <p>
+              Comprehensive sea freight with global partners, secure container
+              handling and customs support.
+            </p>
+            <a class="read-more" href="services.html"
+              >Read More <i class="fa-solid fa-arrow-right"></i
+            ></a>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-media">
+            <img src="uploads/truck.jpg" alt="Land Freight" />
+          </div>
+          <div class="service-body">
+            <span class="service-pill">Land Freight</span>
+            <h3>Land Freight Transportation</h3>
+            <p>
+              Fast and reliable road transport across regional routes and
+              interstate logistics.
+            </p>
+            <a class="read-more" href="services.html"
+              >Read More <i class="fa-solid fa-arrow-right"></i
+            ></a>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-media">
+            <img src="uploads/train.jpg" alt="Train Freight" />
+          </div>
+          <div class="service-body">
+            <span class="service-pill">Train Freight</span>
+            <h3>Rail & Train Freight</h3>
+            <p>
+              High-capacity rail solutions for efficient bulk and long-distance
+              shipments.
+            </p>
+            <a class="read-more" href="services.html"
+              >Read More <i class="fa-solid fa-arrow-right"></i
+            ></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta container">
+      <div class="cta-inner">
+        <div class="cta-copy">
+          <h3>Ready to move your cargo with confidence?</h3>
+          <p>Request a quote or speak to our logistics experts today.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="quote.html">
+            <i class="fa-solid fa-paper-plane"></i> Get A Quote
+          </a>
+          <a class="btn btn-outline" href="contact.html">
+            <i class="fa-solid fa-headset"></i> Contact Sales
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h4>Amerex</h4>
+            <p>
+              Delivering Beyond Borders. Trusted logistics, freight and cargo
+              solutions across the globe.
+            </p>
+            <div style="margin-top: 16px">
+              <p style="margin-bottom: 8px">
+                <i class="fa-solid fa-location-dot"></i> 350 Cargo Drive,
+                Industrial Zone, Lagos, Nigeria
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="services.html">Maritime Freight</a></li>
+              <li><a href="services.html">Land Freight</a></li>
+              <li><a href="services.html">Rail Freight</a></li>
+              <li><a href="quote.html">Get Quote</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="track.html">Track Shipment</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa-solid fa-phone"></i> +1 (681) 473-5679</p>
+            <p>
+              <i class="fa-solid fa-envelope"></i>
+              info.amerexlogistics@gmail.com
+            </p>
+            <p><i class="fa-solid fa-clock"></i> Mon-Sat: 8:00 AM - 8:00 PM</p>
+
+            <div class="footer-follow" style="margin-top: 16px">
+              <h4>Follow Us</h4>
+              <div class="socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <small
+            >&copy; 2025 Amerex Transportation Inc. All rights reserved. |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Privacy Policy</a
+            >
+            |
+            <a href="#" style="color: rgba(255, 255, 255, 0.8)"
+              >Terms of Service</a
+            ></small
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- GLOBAL LOADER OVERLAY -->
+    <div id="pageLoader" class="page-loader hidden">
+      <span class="loader"></span>
+    </div>
+
+    <script src="js/Main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,505 @@
+/**
+ * Mobile Fixes for Amerex Dashboard
+ */
+
+/* Ensure proper mobile viewport */
+@media (max-width: 768px) {
+  /* Mobile navbar fixes */
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .nav-menu {
+    padding: 20px 0;
+  }
+
+  /* Dashboard mobile fixes */
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+  }
+
+  .dashboard-main {
+    width: 100%;
+    padding: 15px;
+  }
+
+  /* Stats grid mobile */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Table mobile scroll */
+  .table-container {
+    overflow-x: auto;
+  }
+
+  /* Form mobile fixes */
+  .form-grid,
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modal mobile fixes */
+  .modal-content {
+    width: 95%;
+    max-width: 95%;
+    margin: 20px auto;
+  }
+
+  /* Button fixes */
+  .btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  /* Mobile bottom nav visibility */
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  .dashboard-sidebar {
+    display: none;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+}
+/* Contact page mobile fixes */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-section,
+  .contact-info {
+    padding: 20px;
+  }
+
+  .map-embed iframe {
+    height: 300px;
+  }
+
+  .info-list {
+    gap: 15px;
+  }
+
+  .info-list i {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .faq {
+    padding: 20px;
+  }
+
+  .socials {
+    justify-content: center;
+  }
+}
+@media (max-width: 480px) {
+  .features-grid .feature-card div[style*="width: 60px"] {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Better mobile fixes for track page */
+@media (max-width: 768px) {
+  /* Form improvements */
+  .tracking-card .form-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tracking-card input {
+    width: 100%;
+  }
+
+  .track-btn {
+    width: 100%;
+  }
+
+  /* Sample buttons mobile */
+  .sample-list {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sample-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Timeline mobile */
+  .timeline {
+    padding-left: 30px;
+  }
+
+  .timeline-marker {
+    left: -27px;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Package header mobile */
+  .package-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* Route display mobile */
+  .route-display {
+    flex-direction: column;
+  }
+
+  .route-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller spacing on tiny screens */
+  .package-info-card,
+  .timeline-container,
+  .progress-section {
+    padding: 20px;
+  }
+
+  .eta-display {
+    font-size: 1.5rem;
+  }
+
+  .countdown-item {
+    min-width: 80px;
+    padding: 16px 20px;
+  }
+
+  .countdown-value {
+    font-size: 2rem;
+  }
+}
+
+/* Touch-friendly improvements */
+.sample-btn,
+.action-btn {
+  min-height: 44px;
+  padding: 12px 16px;
+}
+
+/* Better mobile forms */
+@media (max-width: 768px) {
+  input[type="text"] {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 14px 20px;
+  }
+}
+
+/* Better mobile responsiveness for quote page */
+@media (max-width: 768px) {
+  /* Form improvements */
+  .quote-form-section {
+    padding: 0;
+  }
+
+  .quote-card {
+    padding: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Better mobile forms */
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 14px 16px;
+  }
+
+  /* Quote result mobile */
+  .quote-details {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .quote-summary-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .quote-price {
+    font-size: 2rem;
+  }
+
+  /* Table mobile scroll */
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .comparison-table {
+    min-width: 600px;
+  }
+
+  /* Better mobile sidebar */
+  .quote-sidebar {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Tiny screen improvements */
+  .hero-cta-wrapper {
+    gap: 10px;
+  }
+
+  .live-quote,
+  .quote-result {
+    padding: 20px;
+  }
+
+  .currency-input::before,
+  .weight-input::after {
+    font-size: 14px;
+  }
+
+  .checkbox-label {
+    font-size: 14px;
+    padding: 12px 0;
+  }
+}
+
+/* Touch-friendly improvements */
+.btn,
+.sample-btn {
+  min-height: 44px;
+  padding: 12px 20px;
+}
+
+/* Better form validation display */
+@media (max-width: 768px) {
+  .error-message {
+    font-size: 12px;
+    margin-top: 3px;
+  }
+}
+
+/* Better mobile responsiveness for create-shipment */
+@media (max-width: 768px) {
+  /* Multi-step progress mobile */
+  .quote-progress {
+    padding: 12px 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .step {
+    min-width: 70px;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .step-label {
+    font-size: 0.7rem;
+  }
+
+  /* Form sections mobile */
+  .quote-section {
+    padding: 20px 15px;
+  }
+
+  .quote-section h3 {
+    font-size: 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Package options mobile */
+  .package-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .package-option {
+    padding: 15px 10px;
+  }
+
+  .package-icon {
+    font-size: 1.8rem;
+  }
+
+  /* Service options mobile */
+  .service-options {
+    grid-template-columns: 1fr;
+  }
+
+  /* Payment methods mobile */
+  .payment-methods {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Video upload mobile */
+  .video-upload-section {
+    padding: 20px 15px;
+  }
+
+  .video-upload-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  /* Dimensions row mobile */
+  .dimensions-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Form actions mobile */
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Sidebar mobile */
+  .sidebar {
+    order: -1; /* Show summary first on mobile */
+  }
+
+  .layout-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Coupon section mobile */
+  .coupon-input-group {
+    flex-direction: column;
+  }
+
+  .coupon-btn {
+    width: 100%;
+  }
+
+  /* Crypto details mobile */
+  .crypto-address {
+    font-size: 0.75rem;
+    padding: 12px;
+  }
+
+  .copy-btn {
+    position: static;
+    margin-top: 8px;
+    width: 100%;
+    height: 40px;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .package-options {
+    grid-template-columns: 1fr;
+  }
+
+  .step {
+    min-width: 60px;
+  }
+
+  .step-label {
+    font-size: 0.65rem;
+  }
+
+  .quote-section {
+    padding: 15px 10px;
+  }
+
+  /* Better form inputs */
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Touch-friendly improvements */
+.package-option,
+.service-option,
+.payment-method {
+  min-height: 44px;
+}
+
+/* Better mobile modals */
+@media (max-width: 768px) {
+  .success-modal {
+    width: 95%;
+    padding: 30px 20px;
+  }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .success-icon i {
+    font-size: 40px;
+  }
+}
